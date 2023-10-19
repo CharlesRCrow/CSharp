@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4TZ48zX9cl2C26a1Q9xJdw6FJ9x3oKcphHLlQ54gyv2EAQaNSkXTK8mcDdo4MRc6yWGM78+Z6hAkmyP8wxPUTg==",
+  "success": true,
+  "projectFilePath": "/workspaces/CSharp/.devcontainer/WeatherWeb/WeatherWeb.csproj",
+  "expectedPackageFiles": [
+    "/home/vscode/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
