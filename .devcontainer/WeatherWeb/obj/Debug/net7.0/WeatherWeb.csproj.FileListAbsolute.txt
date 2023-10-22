@@ -31,3 +31,4 @@
 /workspaces/CSharp/.devcontainer/WeatherWeb/bin/Debug/net7.0/Newtonsoft.Json.dll
 /workspaces/CSharp/.devcontainer/WeatherWeb/obj/Debug/net7.0/WeatherWeb.csproj.AssemblyReference.cache
 /workspaces/CSharp/.devcontainer/WeatherWeb/obj/Debug/net7.0/WeatherWeb.csproj.CopyComplete
+/workspaces/CSharp/.devcontainer/WeatherWeb/bin/Debug/net7.0/GeoCoordinate.NetCore.dll

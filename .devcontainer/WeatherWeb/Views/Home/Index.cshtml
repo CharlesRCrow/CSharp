@@ -1,8 +1,32 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using WeatherWeb;
+@model WeatherWeb.Views.Home.Index
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="row">
+  <h1 class="display-2">Weather</h1>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Period</th>
+        <th>Temperature</th>
+        <th>Forecast</th>
+      </tr>
+    </thead>
+    <tbody>
+    @if (Model.weatherList is not null)
+    {
+       @foreach(var s in Model.weatherList)
+      {
+        <tr>
+          <td>@s["Name"]</td>
+          <td>@s["Temp"]</td>
+          <td>@s["DetailedForecast"]/td>
+        </tr>
+      } 
+    }
+    </tbody>
+  </table>
 </div>
