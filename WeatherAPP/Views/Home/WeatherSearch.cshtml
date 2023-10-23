@@ -1,17 +1,8 @@
-@* @model weatherList   *@
 @{
-    ViewData["Title"] = "WeatherSearch"; 
-    //List<Dictionary<string, string>> weatherList = Model.weatherList;
-    
-    //List<Dictionary<string, string>> weatherList = null;
-    //weatherList = model;
-    //var weatherList = List<Dictionary<string, string>> Model;
-        
+    ViewData["Title"] = "WeatherSearch";         
 }
-@ViewBag.MyList
+@* @ViewBag.MyList *@
 
-
-<h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <h1 class="display-2">Weather</h1>
@@ -30,7 +21,11 @@
         <thead class="thead-inverse">
             <tr>
                 <th>Period</th>
-                <th>Temperature</th>
+                <th>Temp&#8457;</th>
+                <th>WindSpeed</th>
+                <th>Direction</th>
+                <th>%_Humidity</th>
+                <th>Chance_Rain</th>
                 <th>Forecast</th>
             </tr>
         </thead>
@@ -42,6 +37,10 @@
                     <tr>
                         <td>@s["Name"]</td>
                         <td>@s["Temp"]</td>
+                        <td>@s["WindSpeed"]</td>
+                        <td>@s["WindDirection"]</td>
+                        <td>@s["Humidity"]</td>
+                        <td>@s["DailyPrecipitation"]</td>
                         <td>@s["DetailedForecast"]/td>
                     </tr>
                 }
