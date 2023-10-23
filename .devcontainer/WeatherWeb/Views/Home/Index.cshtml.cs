@@ -1,31 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using WeatherWeb;
 
-namespace WeatherWeb.Views.Home
+namespace WeatherWeb.Home.Views
 {
-    public class Index : PageModel
+    public class IndexModel : PageModel
     {
-        public List<Dictionary<string, string>>? weatherList { get; set; }
-        public Dictionary<string, string>? address { get; set; }
+        private readonly ILogger<IndexModel> _logger;
 
-        private readonly ILogger<Index> _logger;
-
-        public Index(ILogger<Index> logger)
+        public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
 
         public void OnGet()
         {
-            address = WeatherSearch.GetLoc("Angleton, Texas").Result;
-            //weatherList = WeatherSearch.GetWeather(address).Result;
-            weatherList = null;
+
         }
     }
 }

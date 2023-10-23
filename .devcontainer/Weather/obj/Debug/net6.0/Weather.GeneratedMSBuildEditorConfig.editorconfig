@@ -9,41 +9,41 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Weather
 build_property.RootNamespace = Weather
-build_property.ProjectDir = C:\Users\charl\OneDrive\Documents\GitHub\CSharp\.devcontainer\Weather\
+build_property.ProjectDir = /workspaces/CSharp/.devcontainer/Weather/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\charl\OneDrive\Documents\GitHub\CSharp\.devcontainer\Weather
+build_property.MSBuildProjectDirectory = /workspaces/CSharp/.devcontainer/Weather
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+[/workspaces/CSharp/.devcontainer/Weather/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+[/workspaces/CSharp/.devcontainer/Weather/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+[/workspaces/CSharp/.devcontainer/Weather/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/workspaces/CSharp/.devcontainer/Weather/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/WeatherSearch.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2VhdGhlclNlYXJjaC5jc2h0bWw=
+[/workspaces/CSharp/.devcontainer/Weather/Pages/WeatherSearch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvV2VhdGhlclNlYXJjaC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/workspaces/CSharp/.devcontainer/Weather/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+[/workspaces/CSharp/.devcontainer/Weather/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/charl/OneDrive/Documents/GitHub/CSharp/.devcontainer/Weather/Pages/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-02n3eklwsl
+[/workspaces/CSharp/.devcontainer/Weather/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-qkvpy1jsom

@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\.devcontainer\\Weather\\Weather.csproj": {}
+    "/workspaces/CSharp/.devcontainer/Weather/Weather.csproj": {}
   },
   "projects": {
-    "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\.devcontainer\\Weather\\Weather.csproj": {
+    "/workspaces/CSharp/.devcontainer/Weather/Weather.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\.devcontainer\\Weather\\Weather.csproj",
+        "projectUniqueName": "/workspaces/CSharp/.devcontainer/Weather/Weather.csproj",
         "projectName": "Weather",
-        "projectPath": "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\.devcontainer\\Weather\\Weather.csproj",
-        "packagesPath": "C:\\Users\\charl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\.devcontainer\\Weather\\obj\\",
+        "projectPath": "/workspaces/CSharp/.devcontainer/Weather/Weather.csproj",
+        "packagesPath": "/home/vscode/.nuget/packages/",
+        "outputPath": "/workspaces/CSharp/.devcontainer/Weather/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\charl\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/vscode/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -56,6 +54,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.23, 6.0.23]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.23, 6.0.23]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.23, 6.0.23]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -64,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.402/RuntimeIdentifierGraph.json"
         }
       }
     }

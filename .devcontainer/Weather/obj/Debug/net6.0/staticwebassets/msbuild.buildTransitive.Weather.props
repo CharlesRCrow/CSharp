@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="..\buildMultiTargeting\Weather.props" />
+  <Import Project="../buildMultiTargeting/Weather.props" />
 </Project>
