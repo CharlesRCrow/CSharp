@@ -11,11 +11,16 @@ namespace WeatherAPP.Models
         public Dictionary<string, string> location { get; set; }
         public List<Dictionary<string, string>> weatherList { get; set; }
 
-        public List<Dictionary<string, string>> WeatherGet()
+        public class SearchViewModel
+        {
+            public string Query { get; set; }
+        }
+
+        public List<Dictionary<string, string>> WeatherGet(string address)
         {
             try
             {
-                location = WeatherSearch.GetLoc("Houston, Texas").Result;
+                location = WeatherSearch.GetLoc(address).Result;
                 weatherList = WeatherSearch.GetWeather(location).Result;  
                 return weatherList;
             }
@@ -25,7 +30,9 @@ namespace WeatherAPP.Models
             }
                     
         }
-
-        
+        public List<Dictionary<string, string>> WeatherGet()
+        {
+            return weatherList;                    
+        }        
     }
 }

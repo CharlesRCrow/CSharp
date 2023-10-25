@@ -1,15 +1,15 @@
-﻿using System.Diagnostics;
+﻿using System.Runtime.InteropServices;
+using System.IO;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using WeatherAPP.Views.Home;
+using static WeatherAPP.Models.WeatherJSON;
 
 namespace WeatherAPP.Controllers;
 
 public class HomeController : Controller
-{
-    //public Dictionary<string, string> location { get; set; }
-    //public List<Dictionary<string, string>> weatherList { get; set; }
-    
+{    
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -27,13 +27,27 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult WeatherSearch()
+    public IActionResult WeatherSearch(string searchQuery)
     {
         WeatherJSON model = new WeatherJSON();
-       //ViewData["jsonDict"] = model.WeatherGet();
-        var weatherList = model.WeatherGet() as List<Dictionary<string, string>>;
-        ViewData["weatherList"] = weatherList;
+        List<Dictionary<string, string>> weatherList;
+        
+        if (searchQuery is null)
+        {
+            weatherList = model.WeatherGet();
+        }
+        else
+        {
+            weatherList = model.WeatherGet(searchQuery);
+        }
+        
+        ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
         ViewBag.MyList = weatherList;
+        if (weatherList is null || weatherList.Count == 0)
+        {
+            ViewData["searchLocation"] = "Submit Address for Weather Forecast";
+        }
+
         return View();
     }    
 

@@ -13,7 +13,6 @@ namespace WeatherAPP.Views.Home
     {
         public static async Task<Dictionary<string, string>> GetLoc(string address)
         {
-            //Dictionary<string, string> invalid = new Dictionary<string, string>();
             HttpClient locationClient = new HttpClient();
             HttpRequestMessage locationRequest = new HttpRequestMessage(HttpMethod.Get, $"https://geocode.maps.co/search?q={address}");
 
@@ -100,7 +99,7 @@ namespace WeatherAPP.Views.Home
                     { $"DetailedForecast", (string)day["detailedForecast"] }
                 };
 
-                if (dayWeather[$"DailyPrecipitation"] == "")
+                if (dayWeather[$"DailyPrecipitation"] is null)
                 {
                     dayWeather[$"DailyPrecipitation"] = "0";
                 }
