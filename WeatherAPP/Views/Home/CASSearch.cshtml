@@ -3,7 +3,7 @@
 }
 
 <div class="row">
-    <h2 class="display-6"></h1>
+    <h2 class="display-6">@ViewData["searchChem"]</h1>
     <form asp-action="CASSearch" asp-controller="Home">
         <div class="input-group md-form form-control-sm form-2 pl-0">
             <input name="searchQuery" class="form-control my-0 py-1 red-bolder" type="text" placeholder="Chemical Name" aria-label="Search" 
@@ -22,7 +22,7 @@
         <thead class="thead-inverse">
             <tr>
                 <th>Active</th>
-                <th>CAS Number</th>
+                <th>CAS</th>
                 <th>Flag</th>
                 <th>Chemical Name</th>
             </tr>

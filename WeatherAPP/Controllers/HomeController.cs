@@ -54,28 +54,31 @@ public class HomeController : Controller
     }
     public IActionResult CASSearch(string searchQuery)
     {
-        if (searchQuery is null)
+        if (searchQuery is null || searchQuery.Length < 3)
         {
             return View();
         }
-        else
+        else 
         {
-            IQueryable<Ca>? cas = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
-            // .Where(p => p.Activity == "ACTIVE")
-            // .Where(p => p.Flag == "")
-            .OrderBy(p => p.ChemName);
-            // .Take(200); 
+            string digits = string.Concat(searchQuery.Where(Char.IsDigit));
+            
+            IQueryable<Ca>? chemSearch = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
+                // .Where(p => p.Activity == "ACTIVE")
+                .OrderBy(p => p.ChemName);
+            
+            IQueryable<Ca>? results = chemSearch;
 
-            return View(cas);
+            if (digits.Length > 2 && digits.Length < 11)
+            {
+                IQueryable<Ca>? numSearch = db.Cas?.Where(p => EF.Functions.Like(p.Casregno, $"%{digits}%"))
+                    // .Where(p => p.Activity == "ACTIVE")
+                    .OrderBy(p => p.ChemName);                
+
+                results = chemSearch.Union(numSearch).AsQueryable();
+            }            
+            ViewData["searchChem"] = "Results for: " + searchQuery;
+            return View(results);
         }
-
-        //     IQueryable<Ca>? cas = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
-        //     // .Where(p => p.Activity == "ACTIVE")
-        //     // .Where(p => p.Flag == "")
-        //     .OrderBy(p => p.ChemName);
-        //     // .Take(200); 
-
-        // return View(cas);
     }        
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
