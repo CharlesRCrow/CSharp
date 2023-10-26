@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using WeatherAPP.Views.Home;
 using static WeatherAPP.Models.WeatherJSON;
+using Microsoft.EntityFrameworkCore;
 
 namespace WeatherAPP.Controllers;
 
 public class HomeController : Controller
 {    
+    CasContext db = new CasContext();
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -49,7 +51,32 @@ public class HomeController : Controller
         }
 
         return View();
-    }    
+    }
+    public IActionResult CASSearch(string searchQuery)
+    {
+        if (searchQuery is null)
+        {
+            return View();
+        }
+        else
+        {
+            IQueryable<Ca>? cas = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
+            // .Where(p => p.Activity == "ACTIVE")
+            // .Where(p => p.Flag == "")
+            .OrderBy(p => p.ChemName);
+            // .Take(200); 
+
+            return View(cas);
+        }
+
+        //     IQueryable<Ca>? cas = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
+        //     // .Where(p => p.Activity == "ACTIVE")
+        //     // .Where(p => p.Flag == "")
+        //     .OrderBy(p => p.ChemName);
+        //     // .Take(200); 
+
+        // return View(cas);
+    }        
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
