@@ -52,7 +52,7 @@ public class HomeController : Controller
 
         return View();
     }
-    public IActionResult CASSearch(string searchQuery)
+    public IActionResult CASSearch(string searchQuery, string isInactive = "off")
     {
         if (searchQuery is null || searchQuery.Length < 3)
         {
@@ -63,7 +63,6 @@ public class HomeController : Controller
             string digits = string.Concat(searchQuery.Where(Char.IsDigit));
             
             IQueryable<Ca>? chemSearch = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
-                // .Where(p => p.Activity == "ACTIVE")
                 .OrderBy(p => p.ChemName);
             
             IQueryable<Ca>? results = chemSearch;
@@ -71,11 +70,15 @@ public class HomeController : Controller
             if (digits.Length > 2 && digits.Length < 11)
             {
                 IQueryable<Ca>? numSearch = db.Cas?.Where(p => EF.Functions.Like(p.Casregno, $"%{digits}%"))
-                    // .Where(p => p.Activity == "ACTIVE")
                     .OrderBy(p => p.ChemName);                
 
                 results = chemSearch.Union(numSearch).AsQueryable();
             }            
+            if (isInactive == "on")
+            {
+                results = results.Where(p => p.Activity == "ACTIVE");
+            }
+            
             ViewData["searchChem"] = "Results for: " + searchQuery;
             return View(results);
         }
