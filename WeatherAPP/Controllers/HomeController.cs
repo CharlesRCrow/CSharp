@@ -54,12 +54,14 @@ public class HomeController : Controller
     }
     public IActionResult CASSearch(string searchQuery, string isInactive = "off")
     {
+        
         if (searchQuery is null || searchQuery.Length < 3)
         {
             return View();
         }
         else 
         {
+            ViewData["searchQuery"] = searchQuery;
             string digits = string.Concat(searchQuery.Where(Char.IsDigit));
             
             IQueryable<Ca>? chemSearch = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
