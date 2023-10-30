@@ -16,12 +16,12 @@ namespace WeatherAPP.Models
             public string Query { get; set; }
         }
 
-        public List<Dictionary<string, string>> WeatherGet(string address)
+        public List<Dictionary<string, string>> WeatherGet(string address, string weatherSelect)
         {
             try
             {
                 location = WeatherSearch.GetLoc(address).Result;
-                weatherList = WeatherSearch.GetWeather(location).Result;  
+                weatherList = WeatherSearch.GetWeather(location, weatherSelect).Result;  
                 return weatherList;
             }
             catch

@@ -123,6 +123,13 @@ namespace WeatherTest
                     dayWeather[$"DailyPrecipitation"] = "0";
                 }
 
+                // DateTime startTime = DateTime.Parse(dayWeather["startTime"]);
+                // DateTime endTime = DateTime.Parse(dayWeather["endTime"]);
+
+                // string v = $"{startTime.Hour} to {endTime.Hour}";
+                // dayWeather["period"] = v;
+             
+
                 weatherList.Add(dayWeather);
             }
 

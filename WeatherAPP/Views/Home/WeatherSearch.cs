@@ -41,7 +41,7 @@ namespace WeatherAPP.Views.Home
             return latLong;
         }
 
-        public static async Task<List<Dictionary<string, string>>> GetWeather(Dictionary<string, string> latLong)
+        public static async Task<List<Dictionary<string, string>>> GetWeather(Dictionary<string, string> latLong, string weatherSelect)
         {
             List<Dictionary<string, string>> invalid = new List<Dictionary<string, string>>();
 
@@ -49,7 +49,7 @@ namespace WeatherAPP.Views.Home
             string longitude = latLong["Longitude"];
 
             string weatherLocation = $"https://api.weather.gov/points/{latitude},{longitude}";
-
+            
             // get grid id, x and y for forecast                               
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, weatherLocation);
@@ -70,7 +70,16 @@ namespace WeatherAPP.Views.Home
             var yCord = token.SelectToken("gridY");
             var gridID = token.SelectToken("gridId");
 
-            HttpRequestMessage forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast");
+            HttpRequestMessage forecastRequest = null;
+            if (weatherSelect == "seven")
+            {
+                forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast");
+            }
+            else if (weatherSelect == "hourly")
+            {
+                forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast/hourly");
+            }
+
             HttpResponseMessage httpResponseForecast = await client.SendAsync(forecastRequest);
 
             string forcastResponse = await httpResponseForecast.Content.ReadAsStringAsync();
@@ -89,20 +98,29 @@ namespace WeatherAPP.Views.Home
             {
                 Dictionary<string, string> dayWeather = new Dictionary<string, string>
                 {
-                    { $"Name", (string)day["name"] },
-                    { $"Temp", (string)day["temperature"] },
-                    { $"WindSpeed", (string)day["windSpeed"] },
-                    { $"WindDirection", (string)day["windDirection"] },
-                    { $"Humidity", (string)day["relativeHumidity"]["value"] },
-                    { $"Dewpoint", (string)day["dewpoint"]["value"] },
-                    { $"DailyPrecipitation", (string)day["probabilityOfPrecipitation"]["value"] },
-                    { $"DetailedForecast", (string)day["detailedForecast"] }
+                    { "Name", (string)day["name"] },
+                    { "Temp", (string)day["temperature"] },
+                    { "WindSpeed", (string)day["windSpeed"] },
+                    { "WindDirection", (string)day["windDirection"] },
+                    { "Humidity", (string)day["relativeHumidity"]["value"] },
+                    { "Dewpoint", (string)day["dewpoint"]["value"] },
+                    { "DailyPrecipitation", (string)day["probabilityOfPrecipitation"]["value"] },
+                    { "DetailedForecast", (string)day["detailedForecast"] },
+                    { "ShortForecast", (string)day["shortForecast"] },
+                    { "StartTime", (string)day["startTime"]},
+                    { "EndTime", (string)day["endTime"] }
                 };
 
                 if (dayWeather[$"DailyPrecipitation"] is null)
                 {
                     dayWeather[$"DailyPrecipitation"] = "0";
                 }
+                DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
+                DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
+
+                string v = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
+                dayWeather["Period"] = v;
+                
 
                 weatherList.Add(dayWeather);
             }

@@ -29,7 +29,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult WeatherSearch(string searchQuery)
+    public IActionResult WeatherSearch(string searchQuery, string weatherSelect="seven")
     {
         WeatherJSON model = new WeatherJSON();
         List<Dictionary<string, string>> weatherList;
@@ -40,15 +40,27 @@ public class HomeController : Controller
         }
         else
         {
-            weatherList = model.WeatherGet(searchQuery);
+            weatherList = model.WeatherGet(searchQuery, weatherSelect);
         }
         
-        ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
         ViewBag.MyList = weatherList;
         if (weatherList is null || weatherList.Count == 0)
         {
             ViewData["searchLocation"] = "Submit Address for Weather Forecast";
         }
+        else if (weatherSelect == "seven")
+        {
+            ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
+        }
+        else if (weatherSelect == "hourly")
+        {
+            ViewData["searchLocation"] = "Hourly Forecast : " + searchQuery;
+        }
+
+        
+        ViewData["weatherSelect"] = weatherSelect;
+        ViewData["searchQuery"] = searchQuery;
+        string? searchCity = ViewData["searchQuery"] as string;
 
         return View();
     }
