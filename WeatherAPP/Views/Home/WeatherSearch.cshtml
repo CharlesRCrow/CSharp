@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "WeatherSearch";
-    var searchCity = ViewData["searchQuery"] as string;         
+    string? searchCity = ViewData["searchQuery"] as string; 
+    string? selectWeather = ViewData["weatherSelect"] as string;        
 }
 
 <div class="row">
@@ -16,22 +17,22 @@
                 </span>
             </div>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="weatherSelect" id="flexRadioDefault1" value="seven" onclick="handleClick(this)" checked>
+        <div class="form-check" id="radio-container">
+            <input class="form-check-input" type="radio" name="weatherSelect" id="flexRadioDefault1" value="seven" checked>
             <label class="form-check-label" for="flexRadioDefault1">
                 Seven Day Forecast
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="weatherSelect" id="flexRadioDefault2" value="hourly" onclick="handleClick(this)">
+        <div class="form-check" id="radio-container">
+            <input class="form-check-input" type="radio" name="weatherSelect" id="flexRadioDefault2" value="hourly" >
             <label class="form-check-label" for="flexRadioDefault2">
                 Hourly Forecast
             </label>
         </div>
     </form>    
-    @if (ViewBag.MyList is not null && ViewBag.MyList.Count != 0)
+    @if (ViewBag.MyList is not null && ViewBag.MyList.Count != 0 && selectWeather is not null)
     {
-        @if ((string) ViewData["weatherSelect"] == "seven")
+        @if (selectWeather.Equals("seven"))
         {
             <table class="table">
                 <thead class="thead-inverse">
@@ -61,7 +62,7 @@
                 </tbody>
             </table>            
         }
-        @if ((string) ViewData["weatherSelect"] == "hourly")
+        @if (selectWeather.Equals("hourly"))
         {
             <table class="table">
                 <thead class="thead-inverse">
@@ -107,12 +108,37 @@
             $('input').tooltip();
         });
     </script> 
-    <script>function handleClick(myRadio) {
-        sessionStorage.setItem("data", JSON.stringify({"myRadioButtonId":"checked"}));
-        var data = sessionStorage.getItem('data');
-        if(JSON.parse(data).myRadioButtonId == 'checked')
-        {
-            document.getElementById("myRadioButtonId").checked = true;
+    <script>
+        function getCheckedValue(radioObj) {
+            if(!radioObj)
+                return "";
+            var radioLength = radioObj.length;
+            if(radioLength == undefined)
+                if(radioObj.checked)
+                    return radioObj.value;
+                else
+                    return "";
+            for(var i = 0; i < radioLength; i++) {
+                if(radioObj[i].checked) {
+                    return radioObj[i].value;
+                }
+            }
+            return "";
+        }
+        function setCheckedValue(radioObj, newValue) {
+            if(!radioObj)
+                return;
+            var radioLength = radioObj.length;
+            if(radioLength == undefined) {
+                radioObj.checked = (radioObj.value == newValue.toString());
+                return;
+            }
+            for(var i = 0; i < radioLength; i++) {
+                radioObj[i].checked = false;
+                if(radioObj[i].value == newValue.toString()) {
+                    radioObj[i].checked = true;
+                }
+            }
         }
     </script>
 }

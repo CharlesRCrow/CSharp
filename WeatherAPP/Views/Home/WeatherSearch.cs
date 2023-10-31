@@ -34,7 +34,7 @@ namespace WeatherAPP.Views.Home
 
             Dictionary<string, string> latLong = new Dictionary<string, string>
             {
-                { "Latitude", (string)latitude },
+                { "Latitude", (string) latitude },
                 { "Longitude", (string) longitude }
             };
 
@@ -71,11 +71,11 @@ namespace WeatherAPP.Views.Home
             var gridID = token.SelectToken("gridId");
 
             HttpRequestMessage forecastRequest = null;
-            if (weatherSelect == "seven")
+            if (weatherSelect.Equals("seven"))
             {
                 forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast");
             }
-            else if (weatherSelect == "hourly")
+            else if (weatherSelect.Equals("hourly"))
             {
                 forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast/hourly");
             }
@@ -115,13 +115,12 @@ namespace WeatherAPP.Views.Home
                 {
                     dayWeather[$"DailyPrecipitation"] = "0";
                 }
+                
                 DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
                 DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
 
-                string v = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
-                dayWeather["Period"] = v;
+                dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
                 
-
                 weatherList.Add(dayWeather);
             }
 

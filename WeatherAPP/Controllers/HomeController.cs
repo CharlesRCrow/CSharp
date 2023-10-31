@@ -34,33 +34,24 @@ public class HomeController : Controller
         WeatherJSON model = new WeatherJSON();
         List<Dictionary<string, string>> weatherList;
         
-        if (searchQuery is null)
-        {
-            weatherList = model.WeatherGet();
-        }
-        else
-        {
-            weatherList = model.WeatherGet(searchQuery, weatherSelect);
-        }
+        weatherList = (searchQuery is not null && weatherSelect is not null) ? model.WeatherGet(searchQuery, weatherSelect) : model.WeatherGet();
         
-        ViewBag.MyList = weatherList;
         if (weatherList is null || weatherList.Count == 0)
         {
             ViewData["searchLocation"] = "Submit Address for Weather Forecast";
         }
-        else if (weatherSelect == "seven")
+        else if (weatherSelect.Equals("seven"))
         {
             ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
         }
-        else if (weatherSelect == "hourly")
+        else if (weatherSelect.Equals("hourly"))
         {
             ViewData["searchLocation"] = "Hourly Forecast : " + searchQuery;
         }
 
-        
+        ViewBag.MyList = weatherList;
         ViewData["weatherSelect"] = weatherSelect;
         ViewData["searchQuery"] = searchQuery;
-        string? searchCity = ViewData["searchQuery"] as string;
 
         return View();
     }
@@ -88,7 +79,7 @@ public class HomeController : Controller
 
                 results = chemSearch.Union(numSearch).AsQueryable();
             }            
-            if (isInactive == "on")
+            if (isInactive.Equals("on"))
             {
                 results = results.Where(p => p.Activity == "ACTIVE");
             }
