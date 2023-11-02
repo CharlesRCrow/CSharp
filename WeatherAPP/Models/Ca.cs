@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace WeatherAPP.Models;
 
 public partial class Ca

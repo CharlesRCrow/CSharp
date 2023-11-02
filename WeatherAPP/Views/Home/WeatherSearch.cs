@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net.Cache;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
+﻿using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 
 namespace WeatherAPP.Views.Home

@@ -1,10 +1,6 @@
-﻿using System.Runtime.InteropServices;
-using System.IO;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
-using WeatherAPP.Views.Home;
-using static WeatherAPP.Models.WeatherJSON;
 using Microsoft.EntityFrameworkCore;
 
 namespace WeatherAPP.Controllers;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace WeatherAPP.Models;
 
@@ -17,9 +15,12 @@ public partial class CasContext : DbContext
 
     public virtual DbSet<Ca> Cas { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //=> optionsBuilder.UseSqlite("Name=ConnectionsString:CasString");
-        => optionsBuilder.UseSqlite("Data Source=/workspaces/CSharp/WeatherAPP/wwwroot/CAS.db");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var builder = WebApplication.CreateBuilder();
+            string? sqlConnection = builder.Configuration["sqlConnection"];
+            optionsBuilder.UseSqlite(sqlConnection);
+        }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
