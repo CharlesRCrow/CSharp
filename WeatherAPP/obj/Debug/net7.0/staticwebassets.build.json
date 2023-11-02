@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "I7uKUU9Ki6mZrf+kZ5Iw2eY4yMbfDhdW7ROLYiRzC+Q=",
+  "Hash": "/0CRkGd58D40K9A1IFtKwLTn88M+kT7f66E82Hz+vSI=",
   "Source": "WeatherAPP",
   "BasePath": "_content/WeatherAPP",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/workspaces/CSharp/WeatherAPP/obj/Debug/net7.0/scopedcss/projectbundle/WeatherAPP.bundle.scp.css"
+    },
+    {
+      "Identity": "/workspaces/CSharp/WeatherAPP/wwwroot/CAS.db",
+      "SourceId": "WeatherAPP",
+      "SourceType": "Discovered",
+      "ContentRoot": "/workspaces/CSharp/WeatherAPP/wwwroot/",
+      "BasePath": "_content/WeatherAPP",
+      "RelativePath": "CAS.db",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/CAS.db"
     },
     {
       "Identity": "/workspaces/CSharp/WeatherAPP/wwwroot/css/site.css",

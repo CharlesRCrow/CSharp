@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/WeatherAPP.bundle.scp.css"
     },
     {
+      "Id": "/workspaces/CSharp/WeatherAPP/wwwroot/CAS.db",
+      "PackagePath": "staticwebassets/CAS.db"
+    },
+    {
       "Id": "/workspaces/CSharp/WeatherAPP/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

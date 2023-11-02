@@ -19,7 +19,7 @@ public partial class CasContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //=> optionsBuilder.UseSqlite("Name=ConnectionsString:CasString");
-        => optionsBuilder.UseSqlite("Data Source=/workspaces/CSharp/WeatherAPP/CAS.db");
+        => optionsBuilder.UseSqlite("Data Source=/workspaces/CSharp/WeatherAPP/wwwroot/CAS.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
