@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8vb2BafbBbWjMRi5iMBRUZPfYfqpJNxyc8XCuSHFTenajAdxd9UNa5LVJkKUrDktn26M32qSuX7SpszZQr1hsQ==",
+  "dgSpecHash": "rdKNSBWX0JgL8oqGU/R7AJRPBoEg2JCNZcYs9ulwiLbKHFCXrHTkFWYuH+wPI6G4KM4gCI61rmBnR7vo/8uBcA==",
   "success": true,
   "projectFilePath": "/workspaces/CSharp/WeatherAPP/WeatherAPP.csproj",
   "expectedPackageFiles": [
@@ -16,6 +16,7 @@
     "/home/vscode/.nuget/packages/microsoft.entityframeworkcore.tools/7.0.13/microsoft.entityframeworkcore.tools.7.0.13.nupkg.sha512",
     "/home/vscode/.nuget/packages/microsoft.extensions.caching.abstractions/7.0.0/microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "/home/vscode/.nuget/packages/microsoft.extensions.caching.memory/7.0.0/microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
+    "/home/vscode/.nuget/packages/microsoft.extensions.configuration/7.0.0/microsoft.extensions.configuration.7.0.0.nupkg.sha512",
     "/home/vscode/.nuget/packages/microsoft.extensions.configuration.abstractions/7.0.0/microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "/home/vscode/.nuget/packages/microsoft.extensions.dependencyinjection/7.0.0/microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "/home/vscode/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/7.0.0/microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",

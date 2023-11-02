@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using WeatherAPP.Models;
+using Microsoft.Extensions.Configuration;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -5,7 +9,13 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews();  
+
+        builder.Services.AddDbContext<CasContext>(options =>
+        {
+            options.UseSqlite("Name=CasString");
+        });
+        builder.Services.AddDbContext<CasContext>();             
 
         var app = builder.Build();
 

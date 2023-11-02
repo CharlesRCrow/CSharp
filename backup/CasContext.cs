@@ -1,6 +1,8 @@
-﻿using System;
+﻿using System.Collections.Immutable;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace WeatherAPP.Models;
 
@@ -18,9 +20,9 @@ public partial class CasContext : DbContext
     public virtual DbSet<Ca> Cas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //=> optionsBuilder.UseSqlite("Name=ConnectionsString:CasString");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlite("Data Source=/workspaces/CSharp/WeatherAPP/CAS.db");
-
+        //=> optionsBuilder.UseSqlite(System.Configuration.GetConnectionString("CasString"));
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Ca>(entity =>
