@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/CSharp/WeatherAPP/WeatherAPP.csproj": {}
+    "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\WeatherAPP\\WeatherAPP.csproj": {}
   },
   "projects": {
-    "/workspaces/CSharp/WeatherAPP/WeatherAPP.csproj": {
+    "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\WeatherAPP\\WeatherAPP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/CSharp/WeatherAPP/WeatherAPP.csproj",
+        "projectUniqueName": "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\WeatherAPP\\WeatherAPP.csproj",
         "projectName": "WeatherAPP",
-        "projectPath": "/workspaces/CSharp/WeatherAPP/WeatherAPP.csproj",
-        "packagesPath": "/home/vscode/.nuget/packages/",
-        "outputPath": "/workspaces/CSharp/WeatherAPP/obj/",
+        "projectPath": "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\WeatherAPP\\WeatherAPP.csproj",
+        "packagesPath": "C:\\Users\\charl\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\WeatherAPP\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/vscode/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\charl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -94,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.402/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

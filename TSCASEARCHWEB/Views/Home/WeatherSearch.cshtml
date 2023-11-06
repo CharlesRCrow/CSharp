@@ -1,0 +1,146 @@
+@{
+    ViewData["Title"] = "WeatherSearch";
+    string? searchCity = ViewData["searchQuery"] as string; 
+    string? selectWeather = ViewData["weatherSelect"] as string;        
+}
+
+<div class="row">
+    <h2 class="display-6">@ViewData["searchLocation"]</h1>
+    <form asp-action="WeatherSearch" asp-controller="Home">
+        <div class="input-group md-form form-control-sm form-2 pl-0">
+            <input name="searchQuery" class="form-control my-0 py-1 red-bolder" type="text" placeholder="Address" aria-label="Search" value="@searchCity" 
+                title="City & State or Zipcode" data-placement="center"/>
+            <div class="input-group-append">
+                <span class="input-group-text red lighten-3" id="basic-text1">
+                    <i class="fas fa-search text-grey"
+                    aria-hidden="true">Search</i>
+                </span>
+            </div>
+        </div>
+        <div class="form-check" id="radio-container">
+            <input class="form-check-input" type="radio" name="weatherSelect" id="flexRadioDefault1" value="seven" checked>
+            <label class="form-check-label" for="flexRadioDefault1">
+                Seven Day Forecast
+            </label>
+        </div>
+        <div class="form-check" id="radio-container">
+            <input class="form-check-input" type="radio" name="weatherSelect" id="flexRadioDefault2" value="hourly" >
+            <label class="form-check-label" for="flexRadioDefault2">
+                Hourly Forecast
+            </label>
+        </div>
+    </form>    
+    @if (ViewBag.MyList is not null && ViewBag.MyList.Count != 0 && selectWeather is not null)
+    {
+        @if (selectWeather.Equals("seven"))
+        {
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Period</th>
+                        <th>Temp&#8457;</th>
+                        <th>WindSpeed</th>
+                        <th>Direction</th>
+                        <th>%_Humidity</th>
+                        <th>Chance_Rain</th>
+                        <th>Forecast</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in ViewBag.MyList)
+                    {
+                        <tr>
+                            <td>@s["Name"]</td>
+                            <td>@s["Temp"]</td>
+                            <td>@s["WindSpeed"]</td>
+                            <td>@s["WindDirection"]</td>
+                            <td>@s["Humidity"]</td>
+                            <td>@s["DailyPrecipitation"]</td>
+                            <td>@s["DetailedForecast"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>            
+        }
+        @if (selectWeather.Equals("hourly"))
+        {
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Period</th>
+                        <th>Temp&#8457;</th>
+                        <th>WindSpeed</th>
+                        <th>Direction</th>
+                        <th>%_Humidity</th>
+                        <th>Chance_Rain</th>
+                        <th>Forecast</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in ViewBag.MyList)
+                    {
+                        <tr>
+                            <td>@s["Period"]</td>
+                            <td>@s["Temp"]</td>
+                            <td>@s["WindSpeed"]</td>
+                            <td>@s["WindDirection"]</td>
+                            <td>@s["Humidity"]</td>
+                            <td>@s["DailyPrecipitation"]</td>
+                            <td>@s["ShortForecast"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>            
+        }    
+    }
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#basic-text1").click(function () {
+                $("Form").submit();
+            })
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('input').tooltip();
+        });
+    </script> 
+    <script>
+        function getCheckedValue(radioObj) {
+            if(!radioObj)
+                return "";
+            var radioLength = radioObj.length;
+            if(radioLength == undefined)
+                if(radioObj.checked)
+                    return radioObj.value;
+                else
+                    return "";
+            for(var i = 0; i < radioLength; i++) {
+                if(radioObj[i].checked) {
+                    return radioObj[i].value;
+                }
+            }
+            return "";
+        }
+        function setCheckedValue(radioObj, newValue) {
+            if(!radioObj)
+                return;
+            var radioLength = radioObj.length;
+            if(radioLength == undefined) {
+                radioObj.checked = (radioObj.value == newValue.toString());
+                return;
+            }
+            for(var i = 0; i < radioLength; i++) {
+                radioObj[i].checked = false;
+                if(radioObj[i].value == newValue.toString()) {
+                    radioObj[i].checked = true;
+                }
+            }
+        }
+    </script>
+}
+
+
