@@ -2,6 +2,6 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ActiveDebugProfile>https</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\charl\OneDrive\Documents\GitHub\CSharp\TSCASEARCHWEB\Properties\PublishProfiles\crowsearch - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>crowsearch - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

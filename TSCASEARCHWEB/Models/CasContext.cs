@@ -17,14 +17,8 @@ public partial class CasContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var builder = WebApplication.CreateBuilder();
-        builder.Configuration.AddUserSecrets<Program>();
-        var conStrBuilder = builder.Configuration.GetConnectionString("casString");
-        //var connection = conStrBuilder.ConnectionString;
-        //string? sqlConnection = builder.Configuration["casString"];
         //optionsBuilder.UseSqlite("Data Source=C:\\Users\\charl\\OneDrive\\Documents\\GitHub\\CSharp\\TSCASEARCHWEB\\wwwroot\\CAS.db");
         optionsBuilder.UseSqlite("Data Source=C:\\home\\site\\wwwroot\\wwwroot\\CAS.db");
-        //optionsBuilder.UseSqlite(builder.Configuration.GetConnectionString("casString"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
