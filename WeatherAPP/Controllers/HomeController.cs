@@ -95,7 +95,6 @@ public class HomeController : Controller
                 ViewData["searchChem"] = "Results for: " + searchQuery + " & " + secondQuery;
             }
             
-            //ViewData["searchChem"] = "Results for: " + searchQuery;
             return View(results);
         }
     }        
