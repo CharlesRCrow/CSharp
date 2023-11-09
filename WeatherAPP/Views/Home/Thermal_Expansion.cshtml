@@ -1,22 +1,23 @@
 @{
     ViewData["Title"] = "Thermal_Expansion";         
 }
-<form>
+<br>
+<form asp-action="Thermal_Expansion" asp-controller="Home">
     <div class="row align-items-start">
         <div class="col">
             <label for="densityUnit" class="form-label">Density Unit</label>
             <select class="form-select" aria-label="density unit" name="densityUnit" id="densityUnit">
                 <option selected>----</option>
                 <option value="kPerMeter">Kg/m³</option>
-                <option value="gPerCM">g/cm³</option>
-                <option value="poundsgallons">lb/gal</option>
+                <option value="gPerCM" selected>g/cm³</option>
+                <option value="poundsGallons">lb/gal</option>
             </select>
         </div>
         <div class="col">
             <label for="TempUnit" class="form-label">Temperature Unit</label>
             <select class="form-select" aria-label="container unit temp" name="TempUnit" id="TempUnit">
                 <option selected>----</option>
-                <option value="celcius">&deg;C</option>
+                <option value="celsius" selected>&deg;C</option>
                 <option value="fahrenheit">&deg;F</option>
             </select>
         </div>         
@@ -24,11 +25,12 @@
             <label for="containerUnit" class="form-label">Volume Unit</label>
             <select class="form-select" aria-label="container unit" name="containerUnit" id="containerUnit">
                 <option selected>----</option>
-                <option value="liters">Liters</option>
-                <option value="gallons">Gallons</option>
+                <option value="liters" selected>Liter</option>
+                <option value="gallons">Gallon</option>
             </select>
         </div>
     </div>
+    <br>
     <div class="row align-items-center">
         <div class="col">
             <label for="densityOne" class="form-label">First Density Reading</label>
@@ -42,7 +44,8 @@
             <label for="containerTemp" class="form-label">Max Storage Temp</label>
             <input type="number" class="form-control" id="containerTemp" name="containerTemp">
         </div>           
-    </div>   
+    </div>
+    <br>   
     <div class="row align-items-end">
         <div class="col">
             <label for="densityTwo" class="form-label">Second Density Reading</label>
@@ -57,4 +60,6 @@
             <input type="number" class="form-control" id="containerSize" min="0" name="containerSize">
         </div>                 
     </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
 </form>
