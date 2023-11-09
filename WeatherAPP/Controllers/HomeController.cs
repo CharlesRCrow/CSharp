@@ -29,6 +29,10 @@ public class HomeController : Controller
     {
         return View();
     }
+    public IActionResult Thermal_Expansion()
+    {
+        return View();
+    }
 
     public IActionResult WeatherSearch(string searchQuery, string weatherSelect="seven")
     {

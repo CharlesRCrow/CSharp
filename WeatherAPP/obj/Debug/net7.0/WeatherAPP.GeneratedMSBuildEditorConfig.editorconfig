@@ -32,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/workspaces/CSharp/WeatherAPP/Views/Home/Thermal_Expansion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UaGVybWFsX0V4cGFuc2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/workspaces/CSharp/WeatherAPP/Views/Home/WeatherSearch.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9XZWF0aGVyU2VhcmNoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
