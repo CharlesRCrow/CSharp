@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using Microsoft.EntityFrameworkCore;
+using WeatherAPP;
 
 namespace WeatherAPP.Controllers;
 
@@ -29,8 +30,38 @@ public class HomeController : Controller
     {
         return View();
     }
-    public IActionResult Thermal_Expansion()
+    public IActionResult Thermal_Expansion(string densityUnit, string tempUnit, string volumeUnit,
+        string firstDensity, string firstTemp, string secondDensity, 
+        string secondTemp, string containerSize, string containerTemp)
     {
+        ViewData["firstDensity"] = firstDensity;
+        ViewData["secondDensity"] = secondDensity;
+        ViewData["firstTemp"] = firstTemp;
+        ViewData["secondTemp"] = secondTemp;
+        ViewData["containerSize"] = containerSize;
+        ViewData["containerTemp"] = containerTemp;        
+        
+        if (string.IsNullOrEmpty(firstDensity) || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(firstTemp)
+            || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(containerSize) || string.IsNullOrEmpty(containerTemp))
+        {
+            return View();
+        }
+
+        float densityOne = Calculator.DensityConverter(float.Parse(firstDensity), densityUnit);
+        float densityTwo = Calculator.DensityConverter(float.Parse(secondDensity), densityUnit);
+        float tempOne = Calculator.TempConverter(float.Parse(firstTemp), tempUnit);
+        float tempTwo = Calculator.TempConverter(float.Parse(secondTemp), tempUnit);
+        float tempContainer = Calculator.TempConverter(float.Parse(containerTemp), tempUnit);
+        float sizeContainer = Calculator.VolumeConverter(float.Parse(containerSize), volumeUnit);
+
+        float thermalCoefficient = Calculator.ThermalCoefficient(densityOne, densityTwo, tempOne, tempTwo);
+        float predictedDensity = Calculator.DensityPrediction(densityOne, thermalCoefficient, tempOne, tempContainer);
+        float maxWeight = Calculator.MaxWeight(predictedDensity, sizeContainer);
+
+        ViewData["Coefficient"] = thermalCoefficient;
+        ViewData["PredictedDensity"] = predictedDensity;
+        ViewData["MaxWeight"] = maxWeight;
+        
         return View();
     }
 

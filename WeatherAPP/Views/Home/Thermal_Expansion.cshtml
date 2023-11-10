@@ -15,7 +15,7 @@
         </div>
         <div class="col">
             <label for="TempUnit" class="form-label">Temperature Unit</label>
-            <select class="form-select" aria-label="container unit temp" name="TempUnit" id="TempUnit">
+            <select class="form-select" aria-label="container unit temp" name="tempUnit" id="TempUnit">
                 <option selected>----</option>
                 <option value="celsius" selected>&deg;C</option>
                 <option value="fahrenheit">&deg;F</option>
@@ -23,7 +23,7 @@
         </div>         
         <div class="col">
             <label for="containerUnit" class="form-label">Volume Unit</label>
-            <select class="form-select" aria-label="container unit" name="containerUnit" id="containerUnit">
+            <select class="form-select" aria-label="container unit" name="volumeUnit" id="containerUnit">
                 <option selected>----</option>
                 <option value="liters" selected>Liter</option>
                 <option value="gallons">Gallon</option>
@@ -34,32 +34,60 @@
     <div class="row align-items-center">
         <div class="col">
             <label for="densityOne" class="form-label">First Density Reading</label>
-            <input type="number" class="form-control" id="densityOne" name="densityOne" step="0.01" min="0">
+            <input type="number" class="form-control" id="densityOne" name="firstDensity" step="0.0001" min="0" value=@ViewData["firstDensity"]>
         </div>
         <div class="col">
             <label for="firstTemp" class="form-label">First Temp Reading</label>
-            <input type="number" class="form-control" id="firstTemp" name="firstTemp">
+            <input type="number" class="form-control" id="firstTemp" name="firstTemp" value=@ViewData["firstTemp"]>
         </div>
         <div class="col">
             <label for="containerTemp" class="form-label">Max Storage Temp</label>
-            <input type="number" class="form-control" id="containerTemp" name="containerTemp">
+            <input type="number" class="form-control" id="containerTemp" name="containerTemp" value=@ViewData["containerTemp"]>
         </div>           
     </div>
     <br>   
     <div class="row align-items-end">
         <div class="col">
             <label for="densityTwo" class="form-label">Second Density Reading</label>
-            <input type="number" class="form-control" id="densityTwo" name="densityTwo" step="0.01" min="0">
+            <input type="number" class="form-control" id="densityTwo" name="secondDensity" step="0.0001" min="0" value=@ViewData["secondDensity"]>
         </div> 
         <div class="col">
             <label for="secondTemp" class="form-label">Second Temp Reading</label>
-            <input type="number" class="form-control" id="secondTemp" name="secondTemp">
+            <input type="number" class="form-control" id="secondTemp" name="secondTemp" value=@ViewData["secondTemp"]>
         </div>  
         <div class="col">
             <label for="containerSize" class="form-label">Container Size</label>
-            <input type="number" class="form-control" id="containerSize" min="0" name="containerSize">
+            <input type="number" class="form-control" id="containerSize" min="0" name="containerSize" value=@ViewData["containerSize"]>
         </div>                 
     </div>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<br>
+
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Description</th>
+                        <th>Results</th>
+                        <th>Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Thermal Coefficient</td>
+                        <td>@ViewData["Coefficient"]</td>
+                        <td></td>
+                    </tr>                    
+                    <tr>
+                        <td>Predicted Density at Max Temp</td>
+                        <td>@ViewData["PredictedDensity"]</td>
+                        <td>kg/m 3</td>
+                    </tr>
+                    <tr>
+                        <td>Max Weight</td>
+                        <td>@ViewData["MaxWeight"]</td>
+                        <td>Kg</td>
+                    </tr>                      
+                </tbody>
+            </table>   

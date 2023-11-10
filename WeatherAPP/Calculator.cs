@@ -4,7 +4,7 @@ namespace WeatherAPP
 {
     public class Calculator
     {
-        public float DensityConverter(float density, string unit)
+        public static float DensityConverter(float density, string unit)
         {
             // needs to convert to kg/m 3 
             if (unit.Equals("gPerCM"))
@@ -22,7 +22,7 @@ namespace WeatherAPP
             return density;
         }
         
-        public float CelsiusConverter(float temp, string unit)
+        public static float TempConverter(float temp, string unit)
         {
             // needs to convert to celsius
             if (unit.Equals("celsius"))
@@ -34,7 +34,7 @@ namespace WeatherAPP
                 return (temp - 32) * 5 / 9;
             }
         }
-        public float VolumeConverter(float volume, string unit)
+        public static float VolumeConverter(float volume, string unit)
         {
             // needs to convert to cubic meters
             if (unit.Equals("liters"))
@@ -47,7 +47,7 @@ namespace WeatherAPP
             }
         }
 
-        public float ThermalCoefficient(float densityOne, float densityTwo, 
+        public static float ThermalCoefficient(float densityOne, float densityTwo, 
             float tempOne, float tempTwo)
         {
             float volumeOne = 1 / densityOne;
@@ -61,15 +61,15 @@ namespace WeatherAPP
             return thermalCoefficient;
         }
 
-        public float DensityPrediction(float densityOne, float thermalCoefficient, 
-            float tempOne, float maxTemp)
+        public static float DensityPrediction(float density, float thermalCoefficient, 
+            float temp, float maxTemp)
         {
             // predicts density at max storage temp
-            float predictedDensity = densityOne / (1 + thermalCoefficient * (maxTemp - tempOne));
+            float predictedDensity = density / (1 + thermalCoefficient * (maxTemp - temp));
             return predictedDensity;
         }
 
-        public float MaxWeight(float predictedDensity, float containerVolume)
+        public static float MaxWeight(float predictedDensity, float containerVolume)
         {
             return predictedDensity * containerVolume;
         }   
