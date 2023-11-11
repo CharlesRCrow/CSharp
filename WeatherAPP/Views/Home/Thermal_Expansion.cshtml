@@ -1,30 +1,37 @@
 @{
-    ViewData["Title"] = "Thermal_Expansion";         
+    ViewData["Title"] = "Thermal_Expansion"; 
+    bool error;
+    if (ViewData["error"].Equals("true"))
+    {
+        error = true;
+    }
+    else
+    {
+        error = false;
+    }       
 }
+
 <br>
 <form asp-action="Thermal_Expansion" asp-controller="Home">
     <div class="row align-items-start">
         <div class="col">
             <label for="densityUnit" class="form-label">Density Unit</label>
-            <select class="form-select" aria-label="density unit" name="densityUnit" id="densityUnit">
-                <option selected>----</option>
+            <select class="form-select" aria-label="density unit" name="densityUnit" id="densityUnitSelection" value="@ViewData["densityUnit"]">
                 <option value="kPerMeter">Kg/m³</option>
-                <option value="gPerCM" selected>g/cm³</option>
+                <option value="gPerCM">g/cm³</option>
                 <option value="poundsGallons">lb/gal</option>
             </select>
         </div>
         <div class="col">
-            <label for="TempUnit" class="form-label">Temperature Unit</label>
-            <select class="form-select" aria-label="container unit temp" name="tempUnit" id="TempUnit">
-                <option selected>----</option>
+            <label for="tempUnit" class="form-label">Temperature Unit</label>
+            <select class="form-select" aria-label="container unit temp" name="tempUnit" id="TempUnitSelection">
                 <option value="celsius" selected>&deg;C</option>
                 <option value="fahrenheit">&deg;F</option>
             </select>
         </div>         
         <div class="col">
             <label for="containerUnit" class="form-label">Volume Unit</label>
-            <select class="form-select" aria-label="container unit" name="volumeUnit" id="containerUnit">
-                <option selected>----</option>
+            <select class="form-select" aria-label="container unit" name="volumeUnit" id="containerUnitSelection">
                 <option value="liters" selected>Liter</option>
                 <option value="gallons">Gallon</option>
             </select>
@@ -64,30 +71,61 @@
         <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <br>
+    @if (ViewData["MaxWeight"] is not null && !error)
+    {
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Description</th>
+                    <th>Results</th>
+                    <th>Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Thermal Coefficient</td>
+                    <td>@ViewData["Coefficient"]</td>
+                    <td></td>
+                </tr>                    
+                <tr>
+                    <td>Predicted Density at Max Temp</td>
+                    <td>@ViewData["PredictedDensity"]</td>
+                    <td>@ViewData["densityUnit"]</td>
+                </tr>
+                <tr>
+                    <td>Max Weight</td>
+                    <td>@ViewData["MaxWeight"]</td>
+                    <td>@ViewData["weightUnit"]</td>
+                </tr>                      
+            </tbody>
+        </table>
+    }
+    @if (error)
+    {
+        <h1>Invalid Input</h1>
+    }    
 
-            <table class="table">
-                <thead class="thead-inverse">
-                    <tr>
-                        <th>Description</th>
-                        <th>Results</th>
-                        <th>Unit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Thermal Coefficient</td>
-                        <td>@ViewData["Coefficient"]</td>
-                        <td></td>
-                    </tr>                    
-                    <tr>
-                        <td>Predicted Density at Max Temp</td>
-                        <td>@ViewData["PredictedDensity"]</td>
-                        <td>kg/m 3</td>
-                    </tr>
-                    <tr>
-                        <td>Max Weight</td>
-                        <td>@ViewData["MaxWeight"]</td>
-                        <td>Kg</td>
-                    </tr>                      
-                </tbody>
-            </table>   
+@section scripts{
+    <script>
+         $('#densityUnitSelection').change(function(event){
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("itemName",selectedcategory);
+            });
+        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+    </script>
+    <script>
+         $('#TempUnitSelection').change(function(event){
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("tempUnit",selectedcategory);
+            });
+        $('select').find('option[value='+sessionStorage.getItem('tempUnit')+']').attr('selected','selected');
+    </script>    
+    <script>
+         $('#containerUnitSelection').change(function(event){
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("volumeUnit",selectedcategory);
+            });
+        $('select').find('option[value='+sessionStorage.getItem('volumeUnit')+']').attr('selected','selected');
+    </script>
+}
+

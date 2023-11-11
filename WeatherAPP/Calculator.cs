@@ -72,6 +72,34 @@ namespace WeatherAPP
         public static float MaxWeight(float predictedDensity, float containerVolume)
         {
             return predictedDensity * containerVolume;
-        }   
+        }
+
+        public static float WeightConvert(float weight, string weightUnit)
+        {
+            if (weightUnit.Equals("Kilograms"))
+            {
+                return weight;
+            }
+            else
+            {
+                return (float)(weight * 2.20462262);
+            }
+        } 
+
+        public static float DensityReverter(float density, string densityUnit)
+        {
+            if (densityUnit.Equals("kPerMeter"))
+            {
+                return density;
+            }
+            else if (densityUnit.Equals("gPerCM"))
+            {
+                return (float)(density * 0.001);
+            }
+            else
+            {
+                return (float)(density * 0.00835);
+            }
+        }  
     }
 }

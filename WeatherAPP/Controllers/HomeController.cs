@@ -30,6 +30,7 @@ public class HomeController : Controller
     {
         return View();
     }
+    
     public IActionResult Thermal_Expansion(string densityUnit, string tempUnit, string volumeUnit,
         string firstDensity, string firstTemp, string secondDensity, 
         string secondTemp, string containerSize, string containerTemp)
@@ -39,7 +40,9 @@ public class HomeController : Controller
         ViewData["firstTemp"] = firstTemp;
         ViewData["secondTemp"] = secondTemp;
         ViewData["containerSize"] = containerSize;
-        ViewData["containerTemp"] = containerTemp;        
+        ViewData["containerTemp"] = containerTemp;
+        ViewData["densityUnit"] = densityUnit; 
+        ViewData["error"] = "false";                    
         
         if (string.IsNullOrEmpty(firstDensity) || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(firstTemp)
             || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(containerSize) || string.IsNullOrEmpty(containerTemp))
@@ -57,10 +60,41 @@ public class HomeController : Controller
         float thermalCoefficient = Calculator.ThermalCoefficient(densityOne, densityTwo, tempOne, tempTwo);
         float predictedDensity = Calculator.DensityPrediction(densityOne, thermalCoefficient, tempOne, tempContainer);
         float maxWeight = Calculator.MaxWeight(predictedDensity, sizeContainer);
+        string weightUnit = volumeUnit.Equals("liters") ? "Kilograms" : "Pounds";
 
         ViewData["Coefficient"] = thermalCoefficient;
-        ViewData["PredictedDensity"] = predictedDensity;
-        ViewData["MaxWeight"] = maxWeight;
+        ViewData["PredictedDensity"] = Calculator.DensityReverter(predictedDensity, densityUnit);
+        ViewData["MaxWeight"] = Calculator.WeightConvert(maxWeight, weightUnit);
+        
+        if (float.IsNaN(thermalCoefficient) || float.IsNaN(predictedDensity) || float.IsNaN(maxWeight))
+        {
+            ViewData["error"] = "true";
+            return View();
+        }         
+
+        if (densityUnit.Equals("kPerMeter"))
+        {
+            ViewData["densityUnit"] = "Kg/m³";
+        }
+        else if (densityUnit.Equals("gPerCM"))
+        {
+            ViewData["densityUnit"] = "g/cm³";
+        }
+        else
+        {
+            ViewData["densityUnit"] = "lbs/gallon";
+        }
+
+        if (tempUnit.Equals("celsius"))
+        {
+            ViewData["tempUnit"] = "&deg;C";
+        }
+        else
+        {
+            ViewData["tempUnit"] = "&deg;F";
+        }
+        
+        ViewData["weightUnit"] = weightUnit;
         
         return View();
     }
@@ -140,3 +174,5 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
+
+
