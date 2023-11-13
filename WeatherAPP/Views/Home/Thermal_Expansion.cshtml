@@ -11,6 +11,7 @@
     }       
 }
 
+<h1 class="display-2 align-items-center">Thermal Expansion by Density Change</h1>
 <br>
 <form asp-action="Thermal_Expansion" asp-controller="Home">
     <div class="row align-items-start">
@@ -74,13 +75,17 @@
                 value=@ViewData["containerSize"] step="0.01" title="Up to Two Decimal Places">
         </div>                 
     </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <br>
+    <br>
+    <div>
+        <button type="submit" class="btn btn-primary .btn-lg w-100">SUBMIT</button>
+    </div>
 </form>
-<br>
-    @if (ViewData["MaxWeight"] is not null && !error)
-    {
-        <table class="table">
+<br>   
+@if (ViewData["MaxWeight"] is not null && !error)
+{
+    <div class="table-responsive">
+        <table class="table table-sm" style="width:100%">
             <thead class="thead-inverse">
                 <tr>
                     <th>Description</th>
@@ -107,11 +112,30 @@
                 </tr>                      
             </tbody>
         </table>
-    }
-    @if (error)
-    {
-        <h1>Invalid Input</h1>
-    }    
+    </div>
+}   
+@if (error)
+{
+    <h1>Invalid Input</h1>
+}
+<br>
+<div class="container" style="background-color:rgba(255, 230, 225, 0.5);" style="width:90%">
+    <p class="lead">
+        Calculator based on volumetric temperature expansion calculator from
+        <a href="https://www.engineeringtoolbox.com/volumetric-temperature-expansion-d_315.html">engineeringtoolbox.com</a>.
+    </p>    
+    <p class="lead">
+        This calculator assumes a linear relationship.
+    </p>
+    <p class="lead">    
+        Many substances such as water are not strictly linear as the change in 
+        <a href="https://www.researchgate.net/figure/The-volumetric-coefficient-of-thermal-expansion-of-water-as-a-function-of-temperature_fig5_283292378">rate of expansion of liquid water at 
+        low temperatures is higher than at higher temps </a>.  
+    </p>
+    <p class="lead">        
+        For best results, the two densities should be taken at as large of a temperature interval as possible.
+    </p>
+</div>    
 
 @section scripts{
     <script>
