@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Thermal_Expansion";
+    bool error;
+    if (ViewData["error"].Equals("true"))
+    {
+        error = true;
+    }
+    else
+    {
+        error = false;
+    }
+}
+
+<h1 class="display-2 align-items-center">Thermal Expansion by Density Change</h1>
+<br>
+<form asp-action="Thermal_Expansion" asp-controller="Home">
+    <div class="row align-items-start">
+        <div class="col">
+            <label for="densityUnit" class="form-label">Density Unit</label>
+            <select class="form-select" aria-label="density unit" name="densityUnit" id="densityUnitSelection"
+                    value="@ViewData["densityUnit"]">
+                <option value="kPerMeter">Kg/m³</option>
+                <option value="gPerCM" selected>g/cm³</option>
+                <option value="poundsGallons">lb/gal</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="tempUnit" class="form-label">Temperature Unit</label>
+            <select class="form-select" aria-label="container unit temp" name="tempUnit" id="TempUnitSelection">
+                <option value="celsius" selected>&deg;C</option>
+                <option value="fahrenheit">&deg;F</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="containerUnit" class="form-label">Volume Unit</label>
+            <select class="form-select" aria-label="container unit" name="volumeUnit" id="containerUnitSelection">
+                <option value="liters" selected>Liter</option>
+                <option value="gallons">Gallon</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="densityOne" class="form-label">First Density Reading</label>
+            <input type="number" class="form-control" id="densityOne" name="firstDensity" step="0.0001" min="0"
+                   value=@ViewData["firstDensity"] title="Up to Four Decimal Places">
+        </div>
+        <div class="col">
+            <label for="firstTemp" class="form-label">First Temp Reading</label>
+            <input type="number" class="form-control" id="firstTemp" name="firstTemp"
+                   value=@ViewData["firstTemp"] step="0.01" title="Up to Two Decimal Places">
+        </div>
+        <div class="col">
+            <label for="containerTemp" class="form-label">Max Storage Temp</label>
+            <input type="number" class="form-control" id="containerTemp" name="containerTemp"
+                   value=@ViewData["containerTemp"] step="0.01" title="Up to Two Decimal Places">
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-end">
+        <div class="col">
+            <label for="densityTwo" class="form-label">Second Density Reading</label>
+            <input type="number" class="form-control" id="densityTwo" name="secondDensity" step="0.0001" min="0"
+                   value=@ViewData["secondDensity"] title="Up to Four Decimal Places">
+        </div>
+        <div class="col">
+            <label for="secondTemp" class="form-label">Second Temp Reading</label>
+            <input type="number" class="form-control" id="secondTemp" name="secondTemp"
+                   value=@ViewData["secondTemp"] step="0.01" title="Up to Two Decimal Places">
+        </div>
+        <div class="col">
+            <label for="containerSize" class="form-label">Container Size</label>
+            <input type="number" class="form-control" id="containerSize" min="0" name="containerSize"
+                   value=@ViewData["containerSize"] step="0.01" title="Up to Two Decimal Places">
+        </div>
+    </div>
+    <br>
+    <br>
+    <div>
+        <button type="submit" class="btn btn-primary .btn-lg w-100">SUBMIT</button>
+    </div>
+</form>
+<br>
+@if (ViewData["MaxWeight"] is not null && !error)
+{
+    <div class="table-responsive">
+        <table class="table table-sm" style="width:100%">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Description</th>
+                    <th>Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Thermal Coefficient</td>
+                    <td>@ViewData["Coefficient"]</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Predicted Density at @ViewData["containerTemp"]@ViewData["tempUnit"]</td>
+                    <td>@ViewData["PredictedDensity"] @ViewData["densityUnit"]</td>
+                </tr>
+                <tr>
+                    <td>Container Volume</td>
+                    <td>@ViewData["containerSize"] @ViewData["volumeUnit"]</td>
+                </tr>
+                <tr>
+                    <td>Max Weight</td>
+                    <td>@ViewData["MaxWeight"] @ViewData["weightUnit"] at @ViewData["containerTemp"]@ViewData["tempUnit"]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@if (error)
+{
+    <h1>Invalid Input</h1>
+}
+<br>
+<div class="container" style="background-color:rgba(255, 230, 225, 0.5);" style="width:90%">
+    <p class="lead">
+        Calculator based on volumetric temperature expansion calculator from
+        <a href="https://www.engineeringtoolbox.com/volumetric-temperature-expansion-d_315.html">engineeringtoolbox.com</a>.
+    </p>
+    <p class="lead">
+        This calculator assumes a linear relationship.
+    </p>
+    <p class="lead">
+        Many substances such as water are not strictly linear as the change in
+        <a href="https://www.researchgate.net/figure/The-volumetric-coefficient-of-thermal-expansion-of-water-as-a-function-of-temperature_fig5_283292378">
+            rate of expansion of liquid water at
+            low temperatures is higher than at higher temps
+        </a>.
+    </p>
+    <p class="lead">
+        For best results, the two densities should be taken at as large of a temperature interval as possible.
+    </p>
+</div>
+
+@section scripts{
+    <script>
+         $('#densityUnitSelection').change(function(event){
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("itemName",selectedcategory);
+            });
+        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+    </script>
+    <script>
+         $('#TempUnitSelection').change(function(event){
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("tempUnit",selectedcategory);
+            });
+        $('select').find('option[value='+sessionStorage.getItem('tempUnit')+']').attr('selected','selected');
+    </script>
+    <script>
+         $('#containerUnitSelection').change(function(event){
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("volumeUnit",selectedcategory);
+            });
+        $('select').find('option[value='+sessionStorage.getItem('volumeUnit')+']').attr('selected','selected');
+    </script>
+}
