@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using Microsoft.EntityFrameworkCore;
-using WeatherAPP;
 
 namespace WeatherAPP.Controllers;
 
@@ -42,6 +41,7 @@ public class HomeController : Controller
         ViewData["containerSize"] = containerSize;
         ViewData["containerTemp"] = containerTemp;
         ViewData["densityUnit"] = densityUnit; 
+        ViewData["volumeUnit"] = volumeUnit;
         ViewData["error"] = "false";                    
         
         if (string.IsNullOrEmpty(firstDensity) || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(firstTemp)
@@ -60,11 +60,11 @@ public class HomeController : Controller
         float thermalCoefficient = Calculator.ThermalCoefficient(densityOne, densityTwo, tempOne, tempTwo);
         float predictedDensity = Calculator.DensityPrediction(densityOne, thermalCoefficient, tempOne, tempContainer);
         float maxWeight = Calculator.MaxWeight(predictedDensity, sizeContainer);
-        string weightUnit = volumeUnit.Equals("liters") ? "Kilograms" : "Pounds";
+        string weightUnit = volumeUnit.Equals("liters") ? "kg" : "lbs";
 
-        ViewData["Coefficient"] = thermalCoefficient;
-        ViewData["PredictedDensity"] = Calculator.DensityReverter(predictedDensity, densityUnit);
-        ViewData["MaxWeight"] = Calculator.WeightConvert(maxWeight, weightUnit);
+        ViewData["Coefficient"] = thermalCoefficient.ToString("e4");
+        ViewData["PredictedDensity"] = Calculator.DensityReverter(predictedDensity, densityUnit).ToString("F04");
+        ViewData["MaxWeight"] = Calculator.WeightConvert(maxWeight, weightUnit).ToString("F02");
         
         if (float.IsNaN(thermalCoefficient) || float.IsNaN(predictedDensity) || float.IsNaN(maxWeight))
         {
@@ -87,11 +87,11 @@ public class HomeController : Controller
 
         if (tempUnit.Equals("celsius"))
         {
-            ViewData["tempUnit"] = "&deg;C";
+            ViewData["tempUnit"] = "℃";
         }
         else
         {
-            ViewData["tempUnit"] = "&deg;F";
+            ViewData["tempUnit"] = "°F";
         }
         
         ViewData["weightUnit"] = weightUnit;

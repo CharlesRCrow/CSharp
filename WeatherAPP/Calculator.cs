@@ -31,6 +31,7 @@ namespace WeatherAPP
             }
             else
             {
+                // only other option is fahrenheit
                 return (temp - 32) * 5 / 9;
             }
         }
@@ -41,8 +42,9 @@ namespace WeatherAPP
             {
                 return (float)(volume * 0.001);
             }
-            else
+            else 
             {
+                // only other option is gallons
                 return (float)(volume * 0.00378541);
             }
         }
@@ -76,12 +78,14 @@ namespace WeatherAPP
 
         public static float WeightConvert(float weight, string weightUnit)
         {
-            if (weightUnit.Equals("Kilograms"))
+            if (weightUnit.Equals("kg"))
             {
+                // weight already in correct unit
                 return weight;
             }
             else
             {
+                // only other option is pounds
                 return (float)(weight * 2.20462262);
             }
         } 
@@ -90,6 +94,7 @@ namespace WeatherAPP
         {
             if (densityUnit.Equals("kPerMeter"))
             {
+                // density already in correct unit
                 return density;
             }
             else if (densityUnit.Equals("gPerCM"))
@@ -98,6 +103,7 @@ namespace WeatherAPP
             }
             else
             {
+                // only other option is pounds/gallon
                 return (float)(density * 0.00835);
             }
         }  
