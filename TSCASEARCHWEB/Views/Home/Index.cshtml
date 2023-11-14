@@ -40,12 +40,23 @@
             background-color: #008CBA;
             color: white;
             }
+            .button3 {
+            background-color: white; 
+            color: black; 
+            border: 2px solid #ba5400;
+            }
+
+            .button3:hover {
+            background-color: #ba5400;
+            color: white;
+            }    
         </style>
     </head>
     
     <body>
         <button class="button button1"  onclick="location.href='@Url.Action("WeatherSearch", "Home")'">Weather</button>
         <button class="button button2" onclick="location.href='@Url.Action("CASSearch", "Home")'">TSCA Inventory</button>
+        <button class="button button3" onclick="location.href='@Url.Action("Thermal_Expansion", "Home")'">Thermal Expansion</button>
     </body>
 </html>
 
