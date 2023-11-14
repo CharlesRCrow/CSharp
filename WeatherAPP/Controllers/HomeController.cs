@@ -50,8 +50,11 @@ public class HomeController : Controller
             return View();
         }
 
-        float densityOne = Calculator.DensityConverter(float.Parse(firstDensity), densityUnit);
-        float densityTwo = Calculator.DensityConverter(float.Parse(secondDensity), densityUnit);
+        float densityOne = float.Parse(firstDensity);
+        float densityTwo = float.Parse(secondDensity);
+
+        densityOne = Calculator.DensityConverter(densityOne, densityUnit);
+        densityTwo = Calculator.DensityConverter(float.Parse(secondDensity), densityUnit);
         float tempOne = Calculator.TempConverter(float.Parse(firstTemp), tempUnit);
         float tempTwo = Calculator.TempConverter(float.Parse(secondTemp), tempUnit);
         float tempContainer = Calculator.TempConverter(float.Parse(containerTemp), tempUnit);
