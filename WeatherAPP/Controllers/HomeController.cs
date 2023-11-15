@@ -42,7 +42,8 @@ public class HomeController : Controller
         ViewData["containerTemp"] = containerTemp;
         ViewData["densityUnit"] = densityUnit; 
         ViewData["volumeUnit"] = volumeUnit;
-        ViewData["error"] = "false";                    
+        ViewData["error"] = "false";
+        ViewData["warning"] = "false";                    
         
         if (string.IsNullOrEmpty(firstDensity) || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(firstTemp)
             || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(containerSize) || string.IsNullOrEmpty(containerTemp))
@@ -50,11 +51,8 @@ public class HomeController : Controller
             return View();
         }
 
-        float densityOne = float.Parse(firstDensity);
-        float densityTwo = float.Parse(secondDensity);
-
-        densityOne = Calculator.DensityConverter(densityOne, densityUnit);
-        densityTwo = Calculator.DensityConverter(float.Parse(secondDensity), densityUnit);
+        float densityOne = Calculator.DensityConverter(float.Parse(firstDensity), densityUnit);
+        float densityTwo = Calculator.DensityConverter(float.Parse(secondDensity), densityUnit);
         float tempOne = Calculator.TempConverter(float.Parse(firstTemp), tempUnit);
         float tempTwo = Calculator.TempConverter(float.Parse(secondTemp), tempUnit);
         float tempContainer = Calculator.TempConverter(float.Parse(containerTemp), tempUnit);
@@ -68,6 +66,12 @@ public class HomeController : Controller
         ViewData["Coefficient"] = thermalCoefficient.ToString("e4");
         ViewData["PredictedDensity"] = Calculator.DensityReverter(predictedDensity, densityUnit).ToString("F04");
         ViewData["MaxWeight"] = Calculator.WeightConvert(maxWeight, weightUnit).ToString("F02");
+
+        if ((tempOne > tempTwo && densityOne > densityTwo) || (tempTwo > tempOne && densityTwo > densityOne))
+        {
+            
+            ViewData["warning"] = "true";
+        }
         
         if (float.IsNaN(thermalCoefficient) || float.IsNaN(predictedDensity) || float.IsNaN(maxWeight))
         {
