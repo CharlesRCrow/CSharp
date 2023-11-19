@@ -1,14 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Thermal_Expansion";
-    bool error;
-    if (ViewData["error"].Equals("true"))
-    {
-        error = true;
-    }
-    else
-    {
-        error = false;
-    }
+    bool error = ViewData["error"].Equals("true");
+    bool warning = ViewData["warning"].Equals("true");
 }
 
 <h1 class="display-2 align-items-center">Thermal Expansion by Density Change</h1>
@@ -82,6 +75,10 @@
     </div>
 </form>
 <br>
+@if (warning)
+{
+    <h2>WARNING: Higher Temp Reading Has Higher Density Than Lower Temp Reading </h2>
+}
 @if (ViewData["MaxWeight"] is not null && !error)
 {
     <div class="table-responsive">
@@ -116,7 +113,7 @@
 }
 @if (error)
 {
-    <h1>Invalid Input</h1>
+    <h2>Invalid Input</h2>
 }
 <br>
 <div class="container" style="background-color:rgba(255, 230, 225, 0.5);" style="width:90%">
@@ -141,24 +138,25 @@
 
 @section scripts{
     <script>
-         $('#densityUnitSelection').change(function(event){
+        $('#densityUnitSelection').change(function (event) {
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName",selectedcategory);
-            });
-        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+            sessionStorage.setItem("itemName", selectedcategory);
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('itemName') + ']').attr('selected', 'selected');
     </script>
     <script>
-         $('#TempUnitSelection').change(function(event){
+        $('#TempUnitSelection').change(function (event) {
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("tempUnit",selectedcategory);
-            });
-        $('select').find('option[value='+sessionStorage.getItem('tempUnit')+']').attr('selected','selected');
+            sessionStorage.setItem("tempUnit", selectedcategory);
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('tempUnit') + ']').attr('selected', 'selected');
     </script>
     <script>
-         $('#containerUnitSelection').change(function(event){
+        $('#containerUnitSelection').change(function (event) {
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("volumeUnit",selectedcategory);
-            });
-        $('select').find('option[value='+sessionStorage.getItem('volumeUnit')+']').attr('selected','selected');
+            sessionStorage.setItem("volumeUnit", selectedcategory);
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('volumeUnit') + ']').attr('selected', 'selected');
     </script>
 }
+

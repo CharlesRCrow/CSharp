@@ -29,9 +29,10 @@ public class HomeController : Controller
     {
         return View();
     }
+
     public IActionResult Thermal_Expansion(string densityUnit, string tempUnit, string volumeUnit,
-           string firstDensity, string firstTemp, string secondDensity,
-           string secondTemp, string containerSize, string containerTemp)
+        string firstDensity, string firstTemp, string secondDensity,
+        string secondTemp, string containerSize, string containerTemp)
     {
         ViewData["firstDensity"] = firstDensity;
         ViewData["secondDensity"] = secondDensity;
@@ -42,6 +43,7 @@ public class HomeController : Controller
         ViewData["densityUnit"] = densityUnit;
         ViewData["volumeUnit"] = volumeUnit;
         ViewData["error"] = "false";
+        ViewData["warning"] = "false";
 
         if (string.IsNullOrEmpty(firstDensity) || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(firstTemp)
             || string.IsNullOrEmpty(secondDensity) || string.IsNullOrEmpty(containerSize) || string.IsNullOrEmpty(containerTemp))
@@ -64,6 +66,12 @@ public class HomeController : Controller
         ViewData["Coefficient"] = thermalCoefficient.ToString("e4");
         ViewData["PredictedDensity"] = Calculator.DensityReverter(predictedDensity, densityUnit).ToString("F04");
         ViewData["MaxWeight"] = Calculator.WeightConvert(maxWeight, weightUnit).ToString("F02");
+
+        if ((tempOne > tempTwo && densityOne > densityTwo) || (tempTwo > tempOne && densityTwo > densityOne))
+        {
+
+            ViewData["warning"] = "true";
+        }
 
         if (float.IsNaN(thermalCoefficient) || float.IsNaN(predictedDensity) || float.IsNaN(maxWeight))
         {
@@ -149,7 +157,9 @@ public class HomeController : Controller
 
                 results = chemSearch.Union(numSearch).AsQueryable();
             }
+
             ViewData["searchChem"] = "Results for: " + searchQuery;
+
             if (isInactive.Equals("on"))
             {
                 results = results.Where(p => p.Activity == "ACTIVE");
@@ -160,6 +170,7 @@ public class HomeController : Controller
                 results = results.Where(p => EF.Functions.Like(p.ChemName, $"%{secondQuery}%"));
                 ViewData["searchChem"] = "Results for: " + searchQuery + " & " + secondQuery;
             }
+
             return View(results);
         }
     }
