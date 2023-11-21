@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace WeatherAPP.Controllers;
 
 public class HomeController : Controller
@@ -27,6 +28,30 @@ public class HomeController : Controller
 
     public IActionResult About()
     {
+        return View();
+    }
+
+    public IActionResult Acid_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
+        string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, string conc )
+    {
+        ViewData["weightBatch"] = weightBatch;
+        ViewData["weightUnit"] = weightUnit;
+        ViewData["volumeValue"] = volumeValue;
+        ViewData["volumeUnit"] = volumeUnit;
+        ViewData["densityValue"] = densityValue;
+        ViewData["densityUnit"] = densityUnit;
+        ViewData["acid"] = acid;
+        ViewData["molWeight"] = molWeight;
+        ViewData["conc"] = conc;
+        ViewData["happy"] = "happy";
+
+        if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
+            || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
+        {
+            ViewData["happy"]= "unhappy";
+            return View();
+        }
+        
         return View();
     }
     

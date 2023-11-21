@@ -49,7 +49,18 @@
             .button3:hover {
             background-color: #ba5400;
             color: white;
-            }            
+            }
+
+            .button4 {
+            background-color: white; 
+            color: black; 
+            border: 2px solid #f5488a;
+            }
+
+            .button4:hover {
+            background-color: #f5488a;
+            color: white;
+            }                         
         </style>
     </head>
     
@@ -57,6 +68,7 @@
         <button class="button button1"  onclick="location.href='@Url.Action("WeatherSearch", "Home")'">Weather</button>
         <button class="button button2" onclick="location.href='@Url.Action("CASSearch", "Home")'">TSCA Inventory</button>
         <button class="button button3" onclick="location.href='@Url.Action("Thermal_Expansion", "Home")'">Thermal Expansion</button>
+        <button class="button button4" onclick="location.href='@Url.Action("Acid_Neutralization", "Home")'">Acid Neutralization</button>
     </body>
 </html>
 

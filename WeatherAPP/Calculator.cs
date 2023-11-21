@@ -106,6 +106,12 @@ namespace WeatherAPP
                 // only other option is pounds/gallon
                 return (float)(density * 0.00835);
             }
+        }
+        public static float AcidNeutralization(float batchWeight, float acidNumber, 
+            float molWeightNeut = (float) 56.10567, float concNeut = (float) 0.45)
+        {
+            float result = (float)(batchWeight * acidNumber * molWeightNeut / 56105.67 / concNeut);
+            return result;
         }  
     }
 }
