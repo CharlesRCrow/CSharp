@@ -1,5 +1,8 @@
 @{
-    ViewData["Title"] = "Acid_Neutralization";         
+    ViewData["Title"] = "Acid_Neutralization"; 
+
+    bool imperialWeight = ViewData["weightUnit"].Equals("lbs");
+    bool metric = ViewData["weightUnit"].Equals("kg"); 
 }
 
 <h1 class="display-2 align-items-center">Neutralization of Acidic of Samples</h1>
@@ -14,10 +17,10 @@
                     value=@ViewData["weightBatch"] title="Up to Four Decimal Places">
             </div>
             <div class="col">
-                <label for="weightUnit" class="form-label">Unit of Sample</label>
+                <label for="weightUnit" class="form-label">Weight Unit</label>
                 <select class="form-select" aria-label="Weight unit" name="weightUnit" id="weightUnitSelection" >
                     <option value="kg" selected>Kilograms</option>
-                    <option value="lbs" >Pounds</option>
+                    <option value="lbs">Pounds</option>
                 </select>
             </div>        
         </div>
@@ -36,10 +39,11 @@
                 </select>
             </div>         
         </div>
-        <div class="row align-items-end">
+        <br>
+        <div class="row align-items-center">
             <div class="col">
                 <label for="densityValue" class="form-label">Batch Density</label>
-                <input type="number" class="form-control" id="densityValue" name="densityValue" Value step="0.0001" min="0" 
+                <input type="number" class="form-control" id="densityValue" name="densityValue" step="0.0001" min="0.0001" max ="10"
                     value=@ViewData["densityValue"] title="Up to Four Decimal Places">
             </div>
         <div class="col">
@@ -49,36 +53,53 @@
                 <option value="gPerCM" selected>g/cm³</option>
                 <option value="poundsGallons">lb/gal</option>
             </select>        
-        </div>      
+        </div>
+             
     </div>
-    <div class="row align-items-start">
+    <br>
+    <div class="row align-items-end">
             <div class="col">
-                <label for="acidNumber" class="form-label">Acid Number (mg KOH/g)</label>
+                <label for="acidNumber" class="form-label"><span class="bolded">Acid Number (mg KOH/g)</span></label>
                 <input type="number" class="form-control" id="acidNumber" name="acid" step="0.0001" min="0" 
                     value=@ViewData["acid"] title="Up to Four Decimal Places">
             </div>
                 <div class="col">
-                <label for="equiv" class="form-label">Equivilance</label>
-                <input type="text" class="form-control" id="equiv" name="equiv"   
-                    value="" title="Up to Four Decimal Places" disabled>
+                <label for="equiv" class="form-label">Equivalence Points</label>
+                <input type="number" class="form-control" id="equiv" name="equiv" min = "1"  max = "10" step="1"  
+                    value=@ViewData["equiv"] title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated">
             </div>        
     </div>
+    <br>
     <div class="row align-items-end">
             <div class="col">
-                <label for="mol" class="form-label">Molecular Weight Neutralization</label>
+                <label for="mol" class="form-label">Molecular Weight of Neutralizer</label>
                 <input type="number" class="form-control" id="mol" name="molWeight" step="0.0001" min="0" 
                     value=@ViewData["molWeight"] title="Up to Four Decimal Places">
             </div>
                 <div class="col">
-                <label for="conc" class="form-label">Concentatration (%)</label>
+                <label for="conc" class="form-label">Concentatration of Neutralizer (%)</label>
                 <input type="text" class="form-control" id="conc" name="conc"   
                     value=@ViewData["conc"] title="Up to Four Decimal Places">
             </div>        
     </div>     
+    <br>
+    <div>
         <button type="submit" class="btn btn-primary .btn-lg w-100">SUBMIT</button>
     </div>
 </form>
-<p>@ViewData["happy"]</p>
+
+<br>
+@if (ViewData["result"] is not null)
+{
+    @if (imperialWeight)
+    {
+        <p class="h1">add @ViewData["result"] lbs or @ViewData["altWeight"] ounces of neturalizer</p>
+    }
+    @if (metric)
+    {
+        <p class="h1">add @ViewData["result"] kg or @ViewData["altWeight"] grams of neturalizer</p>
+    }    
+}   
 
 
 @section scripts{

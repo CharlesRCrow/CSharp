@@ -71,7 +71,7 @@ namespace WeatherAPP
             return predictedDensity;
         }
 
-        public static float MaxWeight(float predictedDensity, float containerVolume)
+        public static float Weight(float predictedDensity, float containerVolume)
         {
             return predictedDensity * containerVolume;
         }
@@ -108,10 +108,10 @@ namespace WeatherAPP
             }
         }
         public static float AcidNeutralization(float batchWeight, float acidNumber, 
-            float molWeightNeut = (float) 56.10567, float concNeut = (float) 0.45)
+            float molWeightNeut = (float) 56.10567, float concNeut = (float) 0.45, int equiv = 1)
         {
             float result = (float)(batchWeight * acidNumber * molWeightNeut / 56105.67 / concNeut);
-            return result;
+            return result * equiv;
         }  
     }
 }

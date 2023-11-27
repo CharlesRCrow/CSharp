@@ -31,26 +31,62 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Acid_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
-        string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, string conc )
+    public object? Acid_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
+        string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, string conc, string equiv )
     {
+        
+        if (weightUnit is null)
+        {
+            weightUnit = "kg";
+        }
+
+        if (equiv is null)
+        {
+            equiv = "1";
+        }
+        
         ViewData["weightBatch"] = weightBatch;
         ViewData["weightUnit"] = weightUnit;
         ViewData["volumeValue"] = volumeValue;
-        ViewData["volumeUnit"] = volumeUnit;
         ViewData["densityValue"] = densityValue;
-        ViewData["densityUnit"] = densityUnit;
         ViewData["acid"] = acid;
         ViewData["molWeight"] = molWeight;
         ViewData["conc"] = conc;
-        ViewData["happy"] = "happy";
+        ViewData["equiv"] = equiv;
+
 
         if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
             || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
-        {
-            ViewData["happy"]= "unhappy";
+        {            
             return View();
         }
+
+        float acidNumber = float.Parse(acid);
+        float molWeightNeut = float.Parse(molWeight);
+        float concentration = float.Parse(conc);
+        ushort equivalence = ushort.Parse(equiv);
+        float acidWeight;
+
+        if (string.IsNullOrEmpty(weightBatch))
+        {
+            float density = Calculator.DensityConverter(float.Parse(densityValue), densityUnit);
+            float volumeSample = Calculator.VolumeConverter(float.Parse(volumeValue), volumeUnit);            
+            acidWeight = Calculator.Weight(density, volumeSample);
+        }
+        else
+        {
+            acidWeight = float.Parse(weightBatch);
+        }        
+
+        // gives weight of neutralizer to add
+        float result = Calculator.AcidNeutralization(acidWeight, acidNumber, molWeightNeut, concentration, equivalence);
+        
+        // convert kilograms to lbs if needed        
+        result = Calculator.WeightConvert(result, weightUnit);
+        
+        ViewData["result"] = result.ToString("F02");
+
+        ViewData["altWeight"] = (weightUnit.Equals("kg") ? result * 1000: result * 16).ToString("F02");
         
         return View();
     }
@@ -85,7 +121,7 @@ public class HomeController : Controller
 
         float thermalCoefficient = Calculator.ThermalCoefficient(densityOne, densityTwo, tempOne, tempTwo);
         float predictedDensity = Calculator.DensityPrediction(densityOne, thermalCoefficient, tempOne, tempContainer);
-        float maxWeight = Calculator.MaxWeight(predictedDensity, sizeContainer);
+        float maxWeight = Calculator.Weight(predictedDensity, sizeContainer);
         string weightUnit = volumeUnit.Equals("liters") ? "kg" : "lbs";
 
         ViewData["Coefficient"] = thermalCoefficient.ToString("e4");
