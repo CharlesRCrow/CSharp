@@ -1,3 +1,8 @@
 {
-    "dotnet.defaultSolution": "WeatherWeb.sln"
+    "dotnet.defaultSolution": "WeatherWeb.sln",
+    "cSpell.words": [
+        "Casregno",
+        "Dewpoint",
+        "Uvcb"
+    ]
 }

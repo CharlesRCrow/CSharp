@@ -13,10 +13,11 @@ namespace WeatherAPP.Views.Home
             HttpResponseMessage locationHttpResponseMessage = await locationClient.SendAsync(locationRequest);
             string locationResponse = await locationHttpResponseMessage.Content.ReadAsStringAsync();
 
+            //Dictionary<string, string> invalid = new Dictionary<string, string>();
+            
             if (locationResponse == "[]")
             {
-                Dictionary<string, string> invalid = new Dictionary<string, string>();
-                return invalid;
+                return new Dictionary<string, string>();
             }
 
             string firstResponse = locationResponse.Split('{', '}')[1];
@@ -26,13 +27,20 @@ namespace WeatherAPP.Views.Home
             JToken? latitude = jsonLocation.SelectToken("lat");
             JToken? longitude = jsonLocation.SelectToken("lon");
 
-            Dictionary<string, string> latLong = new Dictionary<string, string>
+            if (latitude?.Type != JTokenType.Null && longitude?.Type != JTokenType.Null)
             {
-                { "Latitude", (string) latitude },
-                { "Longitude", (string) longitude }
-            };
+                Dictionary<string, string> latLong = new Dictionary<string, string>
+                {
+                    { "Latitude", (string) latitude!},
+                    { "Longitude", (string) longitude!}
+                };
 
-            return latLong;
+                return latLong;   
+            }
+            else
+            {
+                return new Dictionary<string, string>();
+            }
         }
 
         public static async Task<List<Dictionary<string, string>>> GetWeather(Dictionary<string, string> latLong, string weatherSelect)
@@ -58,71 +66,86 @@ namespace WeatherAPP.Views.Home
             string response = await httpResponseMessage.Content.ReadAsStringAsync();
 
             JObject root = JObject.Parse(response);
-
             JToken? token = root.SelectToken("properties");
-            var xCord = token.SelectToken("gridX");
-            var yCord = token.SelectToken("gridY");
-            var gridID = token.SelectToken("gridId");
+            
+            if (token is null)
+            {
+                return new List<Dictionary<string, string>>();
+            }
+            
+            JToken? xCord = token.SelectToken("gridX");
+            JToken? yCord = token.SelectToken("gridY");
+            JToken? gridID = token.SelectToken("gridId");
 
-            HttpRequestMessage forecastRequest = null;
+            HttpRequestMessage? forecastRequest = null;
+            
             if (weatherSelect.Equals("seven"))
             {
-                forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast");
+                forecastRequest = new HttpRequestMessage(HttpMethod.Get, 
+                    $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast");
             }
             else if (weatherSelect.Equals("hourly"))
             {
-                forecastRequest = new HttpRequestMessage(HttpMethod.Get, $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast/hourly");
+                forecastRequest = new HttpRequestMessage(HttpMethod.Get, 
+                    $"https://api.weather.gov/gridpoints/{gridID}/{xCord},{yCord}/forecast/hourly");
+            }
+            else
+            {
+                return new List<Dictionary<string, string>>();
             }
 
             HttpResponseMessage httpResponseForecast = await client.SendAsync(forecastRequest);
 
-            string forcastResponse = await httpResponseForecast.Content.ReadAsStringAsync();
+            string forecastResponse = await httpResponseForecast.Content.ReadAsStringAsync();
 
-            JObject forecast = (JObject)JObject.Parse(forcastResponse)["properties"]!;
+            JObject forecast = (JObject)JObject.Parse(forecastResponse)["properties"]!;
             JArray dailyForecast = (JArray)forecast["periods"]!;
-
-            if (dailyForecast == null)
+            
+            if (dailyForecast is null)
             {
-                return invalid;
+                return new List<Dictionary<string, string>>();
             }
+            
+            List<Dictionary<string, string>> weatherList = new List<Dictionary<string, string>>();            
 
-            List<Dictionary<string, string>> weatherList = new List<Dictionary<string, string>>();
-
-            foreach (var day in dailyForecast)
+            foreach (JToken day in dailyForecast ?? throw new InvalidOperationException())
             {
-                Dictionary<string, string> dayWeather = new Dictionary<string, string>
+                Dictionary<string, string> dayWeather = new();
+                
+                if (day.Type != JTokenType.Null)
                 {
-                    { "Name", (string)day["name"] },
-                    { "Temp", (string)day["temperature"] },
-                    { "WindSpeed", (string)day["windSpeed"] },
-                    { "WindDirection", (string)day["windDirection"] },
-                    { "Humidity", (string)day["relativeHumidity"]["value"] },
-                    { "Dewpoint", (string)day["dewpoint"]["value"] },
-                    { "DailyPrecipitation", (string)day["probabilityOfPrecipitation"]["value"] },
-                    { "DetailedForecast", (string)day["detailedForecast"] },
-                    { "ShortForecast", (string)day["shortForecast"] },
-                    { "StartTime", (string)day["startTime"]},
-                    { "EndTime", (string)day["endTime"] }
-                };
+                    dayWeather = new()
+                    {
+                        { "Name", (string)day["name"]! },
+                        { "Temp", (string)day["temperature"]! },
+                        { "WindSpeed", (string)day["windSpeed"]! },
+                        { "WindDirection", (string)day["windDirection"]! },
+                        { "Humidity", (string)day["relativeHumidity"]!["value"]! },
+                        { "Dewpoint", (string)day["dewpoint"]!["value"]! },
+                        { "DailyPrecipitation", (string)day["probabilityOfPrecipitation"]!["value"]! },
+                        { "DetailedForecast", (string)day["detailedForecast"]! },
+                        { "ShortForecast", (string)day["shortForecast"]! },
+                        { "StartTime", (string)day["startTime"]! },
+                        { "EndTime", (string)day["endTime"]! }
+                    };
 
-                if (dayWeather[$"DailyPrecipitation"] is null)
-                {
-                    dayWeather[$"DailyPrecipitation"] = "0";
+                    if (dayWeather[$"DailyPrecipitation"] is null)
+                    {
+                        dayWeather[$"DailyPrecipitation"] = "0";
+                    }
+                    
+                    DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
+                    DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
+
+                    dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
                 }
-                
-                DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
-                DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
-
-                dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
-                
                 weatherList.Add(dayWeather);
             }
 
             if (weatherList.Count == 0)
             {
-                return invalid;
+                return new List<Dictionary<string, string>>();
             }
-
             else
             {
                 return weatherList;

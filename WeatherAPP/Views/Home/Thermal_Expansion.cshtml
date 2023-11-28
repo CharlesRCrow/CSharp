@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "Thermal_Expansion"; 
-    bool error = ViewData["error"].Equals("true");
-    bool warning = ViewData["warning"].Equals("true");
+    bool error = ViewData["error"]!.Equals("true");
+    bool warning = ViewData["warning"]!.Equals("true");
 }
 
 <h1 class="display-2 align-items-center">Thermal Expansion by Density Change</h1>

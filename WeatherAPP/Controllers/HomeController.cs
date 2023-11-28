@@ -54,7 +54,6 @@ public class HomeController : Controller
         ViewData["conc"] = conc;
         ViewData["equiv"] = equiv;
 
-
         if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
             || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
         {            
@@ -178,6 +177,10 @@ public class HomeController : Controller
         {
             ViewData["searchLocation"] = "Submit Address for Weather Forecast";
         }
+        else if (weatherSelect is null)
+        {
+            ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
+        }
         else if (weatherSelect.Equals("seven"))
         {
             ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
@@ -209,6 +212,10 @@ public class HomeController : Controller
             IQueryable<Ca>? chemSearch = db.Cas?.Where(p => EF.Functions.Like(p.ChemName, $"%{searchQuery}%"))
                 .OrderBy(p => p.ChemName);
             
+            if (chemSearch is null)
+            {
+                return View();
+            }
             IQueryable<Ca>? results = chemSearch;
 
             if (digits.Length > 2 && digits.Length < 11)
