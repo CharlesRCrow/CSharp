@@ -107,10 +107,11 @@ namespace WeatherAPP
                 return (float)(density * 0.00835);
             }
         }
-        public static float AcidNeutralization(float batchWeight, float acidNumber, 
-            float molWeightNeut = (float) 56.10567, float concNeut = (float) 0.45, int equiv = 1)
+        public static float AcidNeutralization(float batchWeight, float acidNumber, float molWeightNeut = (float) 56.10567, 
+            float concNeut = (float) 0.45, ushort acidEquiv = 1, ushort baseEquiv = 1, float finalAcidNumber = 0)
         {
-            float result = (float)(batchWeight * acidNumber * molWeightNeut / 56105.67 / concNeut);
+            float equiv = (float) acidEquiv / (float) baseEquiv;
+            float result = (float)(batchWeight * (acidNumber - finalAcidNumber) * molWeightNeut / 56105.67 / concNeut);
             return result * equiv;
         }  
     }

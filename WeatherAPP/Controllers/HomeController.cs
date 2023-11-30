@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace WeatherAPP.Controllers;
 
 public class HomeController : Controller
@@ -32,7 +31,8 @@ public class HomeController : Controller
     }
 
     public object? Acid_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
-        string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, string conc, string equiv )
+        string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, 
+        string conc, string equiv, string baseEquiv, string neutSelect, string acidSelect, string finalAcid )
     {
         
         if (weightUnit is null)
@@ -44,15 +44,23 @@ public class HomeController : Controller
         {
             equiv = "1";
         }
+
+        if (baseEquiv is null)
+        {
+            baseEquiv = "1";
+        }
         
         ViewData["weightBatch"] = weightBatch;
         ViewData["weightUnit"] = weightUnit;
         ViewData["volumeValue"] = volumeValue;
         ViewData["densityValue"] = densityValue;
         ViewData["acid"] = acid;
-        ViewData["molWeight"] = molWeight;
+        ViewData["finalAcid"] = finalAcid;
+        ViewData["molWeight"] = ChemVariables.SwitchBaseNeutralizer(neutSelect, molWeight);
         ViewData["conc"] = conc;
-        ViewData["equiv"] = equiv;
+        ViewData["equiv"] = ChemVariables.SwitchAcidEquiv(acidSelect, equiv);
+        ViewData["baseEquiv"] = ChemVariables.SwitchBaseEquiv(neutSelect, baseEquiv);
+        ViewData["error"] = false;
 
         if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
             || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
@@ -61,10 +69,18 @@ public class HomeController : Controller
         }
 
         float acidNumber = float.Parse(acid);
+        float finalAcidNumber = float.Parse(finalAcid);
         float molWeightNeut = float.Parse(molWeight);
         float concentration = float.Parse(conc);
         ushort equivalence = ushort.Parse(equiv);
+        ushort baseEquivalence = ushort.Parse(baseEquiv);
         float acidWeight;
+
+        if (finalAcidNumber > acidNumber)
+        {
+            ViewData["error"] = "true";
+            return View();
+        }
 
         if (string.IsNullOrEmpty(weightBatch))
         {
@@ -78,10 +94,13 @@ public class HomeController : Controller
         }        
 
         // gives weight of neutralizer to add
-        float result = Calculator.AcidNeutralization(acidWeight, acidNumber, molWeightNeut, concentration, equivalence);
+        float result = Calculator.AcidNeutralization(acidWeight, acidNumber, molWeightNeut, concentration, 
+            equivalence, baseEquivalence, finalAcidNumber);
         
         // convert kilograms to lbs if needed        
         result = Calculator.WeightConvert(result, weightUnit);
+
+        
         
         ViewData["result"] = result.ToString("F02");
 
