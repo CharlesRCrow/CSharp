@@ -213,34 +213,34 @@
     <script>
          $('#volumeUnitSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName",selectedcategory);
+            sessionStorage.setItem("itemName2",selectedcategory);
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('itemName2')+']').attr('selected','selected');
     </script>
     <script>
          $('#densityUnitSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName",selectedcategory);
+            sessionStorage.setItem("itemName3",selectedcategory);
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('itemName3')+']').attr('selected','selected');
     </script>
     <script>
          $('#neutSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName",selectedcategory);
+            sessionStorage.setItem("itemName4",selectedcategory);
             var form = $(event.target).parents('form');
             form.submit();            
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('itemName4')+']').attr('selected','selected');
     </script>
     <script>
          $('#acidSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName",selectedcategory);
+            sessionStorage.setItem("itemName5",selectedcategory);
             var form = $(event.target).parents('form');
             form.submit();            
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('itemName5')+']').attr('selected','selected');
     </script> 
     @* <script>
         $('#acidSelection').on('change', function(event){
