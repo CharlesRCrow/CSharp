@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Tracing;
 
 namespace WeatherAPP.Controllers;
 
@@ -34,21 +35,11 @@ public class HomeController : Controller
         string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, 
         string conc, string equiv, string baseEquiv, string neutSelect, string acidSelect, string finalAcid )
     {
-        
-        if (weightUnit is null)
-        {
-            weightUnit = "kg";
-        }
-
-        if (equiv is null)
-        {
-            equiv = "1";
-        }
-
-        if (baseEquiv is null)
-        {
-            baseEquiv = "1";
-        }
+        weightUnit = weightUnit is null ? "kg" : weightUnit;
+        equiv = equiv is null ? "" : equiv;
+        baseEquiv = baseEquiv is null ? "" : baseEquiv;
+        neutSelect = neutSelect is null ? "" : neutSelect;
+        acidSelect = acidSelect is null ? "" : acidSelect;
         
         ViewData["weightBatch"] = weightBatch;
         ViewData["weightUnit"] = weightUnit;
@@ -60,7 +51,9 @@ public class HomeController : Controller
         ViewData["conc"] = conc;
         ViewData["equiv"] = ChemVariables.SwitchAcidEquiv(acidSelect, equiv);
         ViewData["baseEquiv"] = ChemVariables.SwitchBaseEquiv(neutSelect, baseEquiv);
-        ViewData["error"] = false;
+        ViewData["error"] = "false";
+        ViewData["baseReadOnly"] = neutSelect.Equals("manualNeut") ? "" : "readonly";
+        ViewData["acidReadOnly"] = acidSelect.Equals("manualAcid") ? "" : "readonly";
 
         if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
             || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
@@ -104,7 +97,7 @@ public class HomeController : Controller
         
         ViewData["result"] = result.ToString("F02");
 
-        ViewData["altWeight"] = (weightUnit.Equals("kg") ? result * 1000: result * 16).ToString("F02");
+        ViewData["altWeight"] = (weightUnit.Equals("kg") ? result * 1000 : result * 16).ToString("F02");
         
         return View();
     }

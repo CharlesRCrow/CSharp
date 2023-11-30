@@ -4,7 +4,6 @@
     bool imperialWeight = ViewData["weightUnit"]!.Equals("lbs");
     bool metric = ViewData["weightUnit"]!.Equals("kg");
     bool error = ViewData["error"]!.Equals("true"); 
-
     string errorStyle = "background-color:white;";
     
     if (error)
@@ -21,7 +20,8 @@
         <div class="col">
             <label for="neutSelect" class="form-label">Common Base Neutralizers</label>
             <select class="form-select" aria-label="common base" name="neutSelect" id="neutSelection">
-                <option value="none" selected>Custom</option>
+                <option disabled selected>Choose Base Neutralizer</option>
+                <option value="manualNeut" >Manual Input</option>
                 <option value="sodiumHydroxide">Sodium Hydroxide</option>
                 <option value="potassiumHydroxide">Potassium Hydroxide</option>
                 <option value="ammoniumHydroxide">Ammonium Hydroxide</option>
@@ -29,8 +29,9 @@
         </div>
         <div class="col">
             <label for="acidSelect" class="form-label">Common Acids</label>
-            <select class="form-select" aria-label="common acid" name="acidSelect" id="acidSelection" onchange="myChange()">
-                <option value="none" selected>Custom</option>
+            <select class="form-select" aria-label="common acid" name="acidSelect" id="acidSelection">
+                <option disabled selected>Choose Acid</option>                
+                <option value="manualAcid">Manual Input</option>
                 <option value="hcl">Hydrochoric acid</option>
                 <option value="acetic">Acetic Acid</option>
                 <option value="sulfuric">Sulfuric acid</option>
@@ -90,7 +91,9 @@
         <div class="col">
             <label for="equiv" class="form-label">Acid Equivalence</label>
             <input type="number" class="form-control" id="equiv" name="equiv" min = "1"  max = "10" step="1"  
-                value=@ViewData["equiv"] title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated">
+                value=@ViewData["equiv"] 
+                title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated"
+                @ViewData["acidReadOnly"]>
         </div>         
         <div class="col">
             <label for="acidNumber" class="form-label">Initial Acid Number (mg KOH/g)</label>
@@ -108,12 +111,14 @@
         <div class="col">
             <label for="mol" class="form-label">Base Equivalence</label>
             <input type="number" class="form-control" id="baseEquiv" name="baseEquiv" step="1" min="1" max="10"
-                value=@ViewData["baseEquiv"] title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated">
+                value=@ViewData["baseEquiv"] 
+                title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated"
+                @ViewData["baseReadOnly"]>
         </div>
         <div class="col">
             <label for="mol" class="form-label">Molecular Weight of Neutralizer</label>
             <input type="number" class="form-control" id="mol" name="molWeight" step="0.0001" min="1" 
-                value=@ViewData["molWeight"] title="Up to Four Decimal Places">
+                value=@ViewData["molWeight"] title="Up to Four Decimal Places" @ViewData["baseReadOnly"]>
         </div>
         <div class="col">
             <label for="conc" class="form-label">Concentration of Neutralizer (%)</label>
@@ -142,65 +147,6 @@
     }    
 }
 <br>
-@* <div class="table-responsive">
-    <table class="table table-sm" style="width:100%">
-        <thead class="thead-inverse">
-            <tr>
-                <th>Common Neutralizer</th>
-                <th>Molecular Weight</th>                
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Potassium Hydroxide</td>
-                <td>56.11 g/mol</td>
-            </tr>
-            <tr>
-                <td>Sodium Hydroxide</td>
-                <td>39.9971 g/mol</td>
-            </tr>
-            <tr>
-                <td>Ammonium Hydroxide</td>
-                <td>35.04 g/mol</td>
-            </tr>                                  
-        </tbody>
-    </table>
-</div>
-
-<br>
-<div class="table-responsive">
-    <table class="table table-sm" style="width:100%">
-        <thead class="thead-inverse">
-            <tr>
-                <th>Common Acids</th>
-                <th>Equivalence Points</th>                
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Hydrochloric acid</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>Acetic Acid</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>Sulfuric acid</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Carbonic acid</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Phosphoric acid</td>
-                <td>3</td>
-            </tr>                                                            
-        </tbody>
-    </table>
-</div> *@
-
 
 @section scripts{
     <script>
@@ -242,10 +188,4 @@
             });
         $('select').find('option[value='+sessionStorage.getItem('itemName5')+']').attr('selected','selected');
     </script> 
-    @* <script>
-        $('#acidSelection').on('change', function(event){
-            var form = $(event.target).parents('form');
-            form.submit();
-        });        
-    </script> *@
 }

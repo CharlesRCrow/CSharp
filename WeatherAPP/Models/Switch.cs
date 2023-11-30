@@ -25,7 +25,20 @@ namespace WeatherAPP.Models
                 _ => current,
            };
            return resultText;
-        }        
+        }
+        public static string SwitchAcidNeutralizer(string input, string current)
+        {
+           string resultText = input switch
+           {
+                "hcl" => "36.46",
+                "acetic" => "60.052",
+                "sulfuric" =>  "98.079",
+                "carbonic" => "62.0248",
+                "phosphoric" => "97.994",
+                _ => current,
+           };
+           return resultText;
+        }                   
         public static string SwitchAcidEquiv(string input, string current)
         {
            string resultText = input switch
@@ -38,11 +51,6 @@ namespace WeatherAPP.Models
                 _ => current,
            };
            return resultText;
-        }        
-            
-            
-            
-            
+        }            
     }
-    
 }
