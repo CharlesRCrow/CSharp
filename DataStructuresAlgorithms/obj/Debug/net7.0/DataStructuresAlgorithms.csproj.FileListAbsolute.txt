@@ -1,0 +1,14 @@
+/workspaces/CSharp/DataStructuresAlgorithms/bin/Debug/net7.0/DataStructuresAlgorithms
+/workspaces/CSharp/DataStructuresAlgorithms/bin/Debug/net7.0/DataStructuresAlgorithms.deps.json
+/workspaces/CSharp/DataStructuresAlgorithms/bin/Debug/net7.0/DataStructuresAlgorithms.runtimeconfig.json
+/workspaces/CSharp/DataStructuresAlgorithms/bin/Debug/net7.0/DataStructuresAlgorithms.dll
+/workspaces/CSharp/DataStructuresAlgorithms/bin/Debug/net7.0/DataStructuresAlgorithms.pdb
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.AssemblyInfoInputs.cache
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.AssemblyInfo.cs
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.csproj.CoreCompileInputs.cache
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.dll
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/refint/DataStructuresAlgorithms.dll
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.pdb
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/DataStructuresAlgorithms.genruntimeconfig.cache
+/workspaces/CSharp/DataStructuresAlgorithms/obj/Debug/net7.0/ref/DataStructuresAlgorithms.dll

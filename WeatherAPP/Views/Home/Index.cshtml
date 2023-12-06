@@ -33,11 +33,11 @@
             .button2 {
             background-color: white; 
             color: black; 
-            border: 2px solid #008CBA;
+            border: 2px solid #a7ba00;
             }
 
             .button2:hover {
-            background-color: #008CBA;
+            background-color: #a7ba00;
             color: white;
             }
             .button3 {
@@ -60,7 +60,17 @@
             .button4:hover {
             background-color: #f5488a;
             color: white;
-            }                         
+            }
+            .button5 {
+            background-color: white; 
+            color: black; 
+            border: 2px solid #6248f5;
+            }
+
+            .button5:hover {
+            background-color: #6248f5;
+            color: white;
+            }                                        
         </style>
     </head>
     
@@ -69,6 +79,7 @@
         <button class="button button2" onclick="location.href='@Url.Action("CASSearch", "Home")'">TSCA Inventory</button>
         <button class="button button3" onclick="location.href='@Url.Action("Thermal_Expansion", "Home")'">Thermal Expansion</button>
         <button class="button button4" onclick="location.href='@Url.Action("Acid_Neutralization", "Home")'">Acid Neutralization</button>
+        <button class="button button5" onclick="location.href='@Url.Action("Base_Neutralization", "Home")'">Base Neutralization</button>
     </body>
 </html>
 

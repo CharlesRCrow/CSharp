@@ -4,5 +4,9 @@
         "Casregno",
         "Dewpoint",
         "Uvcb"
-    ]
+    ],
+    "polyglot-notebook.logLevel": "Info",
+    "polyglot-notebook.kernelEnvironmentVariables": {
+        "editor.semanticHighlighting.enabled": true
+    }
 }

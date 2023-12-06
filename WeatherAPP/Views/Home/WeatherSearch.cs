@@ -12,8 +12,6 @@ namespace WeatherAPP.Views.Home
 
             HttpResponseMessage locationHttpResponseMessage = await locationClient.SendAsync(locationRequest);
             string locationResponse = await locationHttpResponseMessage.Content.ReadAsStringAsync();
-
-            //Dictionary<string, string> invalid = new Dictionary<string, string>();
             
             if (locationResponse == "[]")
             {
@@ -101,7 +99,7 @@ namespace WeatherAPP.Views.Home
             JObject forecast = (JObject)JObject.Parse(forecastResponse)["properties"]!;
             JArray dailyForecast = (JArray)forecast["periods"]!;
             
-            if (dailyForecast is null)
+            if (dailyForecast is null) 
             {
                 return new List<Dictionary<string, string>>();
             }

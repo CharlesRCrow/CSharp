@@ -31,7 +31,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public object? Acid_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
+    public IActionResult Acid_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
         string volumeUnit, string densityValue, string densityUnit, string acid, string molWeight, 
         string conc, string equiv, string baseEquiv, string neutSelect, string acidSelect, string finalAcid )
     {
@@ -64,7 +64,7 @@ public class HomeController : Controller
         float acidNumber = float.Parse(acid);
         float finalAcidNumber = float.Parse(finalAcid);
         float molWeightNeut = float.Parse(molWeight);
-        float concentration = float.Parse(conc);
+        float concentration = float.Parse(conc) / 100;
         ushort equivalence = ushort.Parse(equiv);
         ushort baseEquivalence = ushort.Parse(baseEquiv);
         float acidWeight;
@@ -84,23 +84,94 @@ public class HomeController : Controller
         else
         {
             acidWeight = float.Parse(weightBatch);
+            // convert weight to kg if needed
+            acidWeight = weightUnit.Equals("kg") ? acidWeight : (float)(acidWeight * 0.45359237);
         }        
 
         // gives weight of neutralizer to add
-        float result = Calculator.AcidNeutralization(acidWeight, acidNumber, molWeightNeut, concentration, 
-            equivalence, baseEquivalence, finalAcidNumber);
+        float result = Calculator.AcidNeutralization(acidWeight, acidNumber, finalAcidNumber, 
+        molWeightNeut, concentration, equivalence, baseEquivalence);
         
         // convert kilograms to lbs if needed        
         result = Calculator.WeightConvert(result, weightUnit);
 
-        
-        
+
         ViewData["result"] = result.ToString("F02");
 
-        ViewData["altWeight"] = (weightUnit.Equals("kg") ? result * 1000 : result * 16).ToString("F02");
+        ViewData["altWeight"] = (weightUnit.Equals("kg") ? result * 1000 : result * 16).ToString("N2");
         
         return View();
     }
+    public IActionResult Base_Neutralization(string weightBatch, string weightUnit, string volumeValue, 
+        string volumeUnit, string densityValue, string densityUnit, string initialBase, string molWeight, 
+        string conc, string equiv, string acidEquiv, string neutSelect, string baseSelect, string finalBase )
+    {
+        weightUnit = weightUnit is null ? "kg" : weightUnit;
+        equiv = equiv is null ? "" : equiv;
+        acidEquiv = acidEquiv is null ? "" : acidEquiv;
+        neutSelect = neutSelect is null ? "" : neutSelect;
+        baseSelect = baseSelect is null ? "" : baseSelect;
+        
+        ViewData["weightBatch"] = weightBatch;
+        ViewData["weightUnit"] = weightUnit;
+        ViewData["volumeValue"] = volumeValue;
+        ViewData["densityValue"] = densityValue;
+        ViewData["initialBase"] = initialBase;
+        ViewData["finalBase"] = finalBase;
+        ViewData["molWeight"] = ChemVariables.SwitchAcidNeutralizer(neutSelect, molWeight);
+        ViewData["conc"] = conc;
+        ViewData["baseEquiv"] = ChemVariables.SwitchBaseEquiv(baseSelect, equiv);
+        ViewData["acidEquiv"] = ChemVariables.SwitchAcidEquiv(neutSelect, acidEquiv);
+        ViewData["error"] = "false";
+        ViewData["acidReadOnly"] = neutSelect.Equals("manualAcid") ? "" : "readonly";
+        ViewData["baseReadOnly"] = baseSelect.Equals("manualBase") ? "" : "readonly";
+
+        if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
+            || string.IsNullOrEmpty(initialBase) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
+        {            
+            return View();
+        }
+
+        float baseNumber = float.Parse(initialBase);
+        float finalBaseNumber = float.Parse(finalBase);
+        float molWeightNeut = float.Parse(molWeight);
+        float concentration = float.Parse(conc) / 100;
+        ushort equivalence = ushort.Parse(equiv);
+        ushort acidEquivalence = ushort.Parse(acidEquiv);
+        float baseWeight;
+
+        if (finalBaseNumber > baseNumber)
+        {
+            ViewData["error"] = "true";
+            return View();
+        }
+
+        if (string.IsNullOrEmpty(weightBatch))
+        {
+            float density = Calculator.DensityConverter(float.Parse(densityValue), densityUnit);
+            float volumeSample = Calculator.VolumeConverter(float.Parse(volumeValue), volumeUnit);            
+            baseWeight = Calculator.Weight(density, volumeSample);
+        }
+        else
+        {
+            baseWeight = float.Parse(weightBatch);
+            // convert weight to kg if needed
+            baseWeight = weightUnit.Equals("kg") ? baseWeight : (float)(baseWeight * 0.45359237);
+        }        
+
+        // gives weight of neutralizer to add
+        float result = Calculator.BaseNeutralization(baseWeight, baseNumber, finalBaseNumber, 
+        molWeightNeut, concentration, equivalence, acidEquivalence);
+        
+        // convert kilograms to lbs if needed        
+        result = Calculator.WeightConvert(result, weightUnit);
+
+        ViewData["result"] = result.ToString("F02");
+
+        ViewData["altWeight"] = (weightUnit.Equals("kg") ? result * 1000 : result * 16).ToString("N2");
+        
+        return View();
+    }    
     
     public IActionResult Thermal_Expansion(string densityUnit, string tempUnit, string volumeUnit,
         string firstDensity, string firstTemp, string secondDensity, 

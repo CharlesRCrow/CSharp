@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Acid_Neutralization"; 
+    ViewData["Title"] = "Base_Neutralization"; 
     
     bool imperialWeight = ViewData["weightUnit"]!.Equals("lbs");
     bool metric = ViewData["weightUnit"]!.Equals("kg");
@@ -12,31 +12,31 @@
     }        
 }
 
-<h1 class="display-2 text-center">Neutralization of Acidic Samples</h1>
+<h1 class="display-2 text-center">Neutralization of Basic Samples</h1>
 <br>
-<form asp-action="Acid_Neutralization" asp-controller="Home">
+<form asp-action="Base_Neutralization" asp-controller="Home">
     <p class="text-center fs-2">Enter Batch Weight or Volume and Density</p>
     <div class="row align-items-center">
         <div class="col">
-            <label for="neutSelect" class="form-label">Common Base Neutralizers</label>
-            <select class="form-select" aria-label="common base" name="neutSelect" id="neutSelection">
-                <option disabled selected>Choose Base Neutralizer</option>
-                <option value="manualNeut" >Manual Input</option>
-                <option value="sodiumHydroxide">Sodium Hydroxide</option>
-                <option value="potassiumHydroxide">Potassium Hydroxide</option>
-                <option value="ammoniumHydroxide">Ammonium Hydroxide</option>
-            </select>
-        </div>
-        <div class="col">
-            <label for="acidSelect" class="form-label">Common Acids</label>
-            <select class="form-select" aria-label="common acid" name="acidSelect" id="acidSelection">
-                <option disabled selected>Choose Acid</option>                
+            <label for="neutSelect" class="form-label">Common Acidic Neutralizers</label>
+            <select class="form-select" aria-label="common acid" name="neutSelect" id="neutSelection">
+                <option disabled selected>Choose Acid Neutralizer</option>                
                 <option value="manualAcid">Manual Input</option>
                 <option value="hcl">Hydrochoric acid</option>
                 <option value="acetic">Acetic Acid</option>
                 <option value="sulfuric">Sulfuric acid</option>
                 <option value="carbonic">Carbonic acid</option>
                 <option value="phosphoric">Phosphoric acid</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="acidSelect" class="form-label">Common Bases</label>
+            <select class="form-select" aria-label="common base" name="baseSelect" id="baseSelection">
+                <option disabled selected>Choose Base</option>
+                <option value="manualBase" >Manual Input</option>
+                <option value="sodiumHydroxide">Sodium Hydroxide</option>
+                <option value="potassiumHydroxide">Potassium Hydroxide</option>
+                <option value="ammoniumHydroxide">Ammonium Hydroxide</option>                
             </select>
         </div>            
     </div>     
@@ -89,36 +89,36 @@
     <br>
     <div class="row align-items-center">
         <div class="col">
-            <label for="equiv" class="form-label">Acid Equivalence</label>
+            <label for="equiv" class="form-label">Base Equivalence</label>
             <input type="number" class="form-control" id="equiv" name="equiv" min = "1"  max = "10" step="1"  
-                value=@ViewData["equiv"] 
+                value=@ViewData["baseEquiv"] 
                 title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated"
-                @ViewData["acidReadOnly"]>
+                @ViewData["baseReadOnly"]>
         </div>         
         <div class="col">
-            <label for="acidNumber" class="form-label">Initial Acid Number (mg KOH/g)</label>
-            <input type="number" class="form-control" id="acidNumber" name="acid" step="0.0001" min="0" 
-                value=@ViewData["acid"] title="Up to Four Decimal Places">
+            <label for="baseNumber" class="form-label">Initial Base Number (mg KOH/g)</label>
+            <input type="number" class="form-control" id="baseNumber" name="initialBase" step="0.0001" min="0" 
+                value=@ViewData["initialBase"] title="Up to Four Decimal Places">
         </div>
         <div class="col">
-            <label for="finalacidNumber" class="form-label">Desired Acid Number (mg KOH/g)</label>
-            <input type="number" style="@errorStyle" class="form-control" id="finalacidNumber" name="finalAcid" step="0.0001" min="0" 
-                value=@ViewData["finalAcid"] title="Up to Four Decimal Places">
+            <label for="finalBaseNumber" class="form-label">Desired Base Number (mg KOH/g)</label>
+            <input type="number" style="@errorStyle" class="form-control" id="finalBaseNumber" name="finalBase" step="0.0001" min="0" 
+                value=@ViewData["finalBase"] title="Up to Four Decimal Places">
         </div>                 
     </div>
     <br>
     <div class="row align-items-center">
         <div class="col">
-            <label for="mol" class="form-label">Base Equivalence</label>
-            <input type="number" class="form-control" id="baseEquiv" name="baseEquiv" step="1" min="1" max="10"
-                value=@ViewData["baseEquiv"] 
+            <label for="mol" class="form-label">Acid Equivalence</label>
+            <input type="number" class="form-control" id="acidEquiv" name="acidEquiv" step="1" min="1" max="10"
+                value=@ViewData["acidEquiv"] 
                 title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated"
-                @ViewData["baseReadOnly"]>
+                @ViewData["acidReadOnly"]>
         </div>
         <div class="col">
             <label for="mol" class="form-label">Molecular Weight of Neutralizer</label>
             <input type="number" class="form-control" id="mol" name="molWeight" step="0.0001" min="1" 
-                value=@ViewData["molWeight"] title="Up to Four Decimal Places" @ViewData["baseReadOnly"]>
+                value=@ViewData["molWeight"] title="Up to Four Decimal Places" @ViewData["acidReadOnly"]>
         </div>
         <div class="col">
             <label for="conc" class="form-label">Concentration of Neutralizer (%)</label>
@@ -152,40 +152,40 @@
     <script>
          $('#weightUnitSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName",selectedcategory);
+            sessionStorage.setItem("weightName",selectedcategory);
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('weightName')+']').attr('selected','selected');
     </script>
     <script>
          $('#volumeUnitSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName2",selectedcategory);
+            sessionStorage.setItem("volumeName",selectedcategory);
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName2')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('volumeName')+']').attr('selected','selected');
     </script>
     <script>
          $('#densityUnitSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName3",selectedcategory);
+            sessionStorage.setItem("duName",selectedcategory);
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName3')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('duName')+']').attr('selected','selected');
     </script>
     <script>
          $('#neutSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName4",selectedcategory);
+            sessionStorage.setItem("acidNeutName",selectedcategory);
             var form = $(event.target).parents('form');
             form.submit();            
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName4')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('acidNeutName')+']').attr('selected','selected');
     </script>
     <script>
-         $('#acidSelection').change(function(event){
+         $('#baseSelection').change(function(event){
             var selectedcategory = $(this).children("option:selected").val();
-            sessionStorage.setItem("itemName5",selectedcategory);
+            sessionStorage.setItem("baseSelectName",selectedcategory);
             var form = $(event.target).parents('form');
             form.submit();            
             });
-        $('select').find('option[value='+sessionStorage.getItem('itemName5')+']').attr('selected','selected');
+        $('select').find('option[value='+sessionStorage.getItem('baseSelectName')+']').attr('selected','selected');
     </script> 
 }

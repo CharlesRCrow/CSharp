@@ -20,34 +20,19 @@ namespace WeatherAPP
                 return (float)(density * 119.826427);
             }
             return density;
-        }
+        }       
         
-        public static float TempConverter(float temp, string unit)
-        {
-            // needs to convert to celsius
-            if (unit.Equals("celsius"))
-            {
-                return temp;
-            }
-            else
-            {
-                // only other option is fahrenheit
-                return (temp - 32) * 5 / 9;
-            }
-        }
-        public static float VolumeConverter(float volume, string unit)
-        {
-            // needs to convert to cubic meters
-            if (unit.Equals("liters"))
-            {
-                return (float)(volume * 0.001);
-            }
-            else 
-            {
-                // only other option is gallons
-                return (float)(volume * 0.00378541);
-            }
-        }
+        // unit either celsius or fahrenheit
+        public static float TempConverter(float temp, string unit) =>
+            unit.Equals("celsius") ? temp : (temp - 32) * 5 / 9;
+            
+        // unit either liters or gallons
+        public static float VolumeConverter(float volume, string unit) =>
+            unit.Equals("liters") ? (float)(volume * 0.001) : (float)(volume * 0.00378541);
+
+        // unit either kg or lbs
+        public static float WeightConvert(float weight, string weightUnit) =>
+            weightUnit.Equals("kg") ? weight : (float)(weight * 2.20462262);            
 
         public static float ThermalCoefficient(float densityOne, float densityTwo, 
             float tempOne, float tempTwo)
@@ -64,31 +49,9 @@ namespace WeatherAPP
         }
 
         public static float DensityPrediction(float density, float thermalCoefficient, 
-            float temp, float maxTemp)
-        {
-            // predicts density at max storage temp
-            float predictedDensity = density / (1 + thermalCoefficient * (maxTemp - temp));
-            return predictedDensity;
-        }
+            float temp, float maxTemp) => density / (1 + thermalCoefficient * (maxTemp - temp));
 
-        public static float Weight(float predictedDensity, float containerVolume)
-        {
-            return predictedDensity * containerVolume;
-        }
-
-        public static float WeightConvert(float weight, string weightUnit)
-        {
-            if (weightUnit.Equals("kg"))
-            {
-                // weight already in correct unit
-                return weight;
-            }
-            else
-            {
-                // only other option is pounds
-                return (float)(weight * 2.20462262);
-            }
-        } 
+        public static float Weight(float density, float volume) => density * volume;
 
         public static float DensityReverter(float density, string densityUnit)
         {
@@ -107,12 +70,21 @@ namespace WeatherAPP
                 return (float)(density * 0.00835);
             }
         }
-        public static float AcidNeutralization(float batchWeight, float acidNumber, float molWeightNeut = (float) 56.10567, 
-            float concNeut = (float) 0.45, ushort acidEquiv = 1, ushort baseEquiv = 1, float finalAcidNumber = 0)
+        public static float AcidNeutralization(float batchWeight, float acidNumber, float finalAcidNumber, 
+            float molWeightNeut, float concNeut, ushort acidEquiv = 1, ushort baseEquiv = 1)
         {
             float equiv = (float) acidEquiv / (float) baseEquiv;
-            float result = (float)(batchWeight * (acidNumber - finalAcidNumber) * molWeightNeut / 56105.67 / concNeut);
+            float result = (float)((float)((acidNumber - finalAcidNumber) * batchWeight * molWeightNeut / 56105.67) / concNeut);
+
             return result * equiv;
-        }  
+        }
+        public static float BaseNeutralization(float batchWeight, float initialBaseNumber, float finalBaseNumber, 
+            float molWeightNeut, float concNeut, ushort acidEquiv = 1, ushort baseEquiv = 1)
+        {
+            float equiv = (float) acidEquiv / (float) baseEquiv;
+            float result = (float)((float)((initialBaseNumber - finalBaseNumber) * batchWeight * molWeightNeut / 56105.67) / concNeut);
+
+            return result * equiv;
+        }            
     }
 }
