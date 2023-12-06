@@ -1,27 +1,28 @@
 using System.Reflection.Metadata.Ecma335;
+using SQLitePCL;
 
 namespace WeatherAPP
 {
     public class Calculator
     {
-        public static float DensityConverter(float density, string unit)
-        {
-            // needs to convert to kg/m 3 
-            if (unit.Equals("gPerCM"))
+        public static float DensityConverter(float density, string densityUnit) =>
+            // needs to convert to kg/m 3
+            densityUnit switch
             {
-                return density * 1000;
-            }
-            else if (unit.Equals("kPerMeter"))
-            {
-                return density;
-            }
-            else if (unit.Equals("poundsGallons"))
-            {
-                return (float)(density * 119.826427);
-            }
-            return density;
-        }       
+                "gPerCM" => density * 1000,
+                "poundsGallons" => (float)(density * 119.826427),
+                _ => density
+            };
         
+        public static float DensityReverter(float density, string densityUnit) =>
+            // convert back to original units
+            densityUnit switch
+            {
+                "gPerCM" => (float)(density * 0.001),
+                "poundsGallons" => (float)(density * 0.00835),
+                _ => density
+            };
+                    
         // unit either celsius or fahrenheit
         public static float TempConverter(float temp, string unit) =>
             unit.Equals("celsius") ? temp : (temp - 32) * 5 / 9;
@@ -34,42 +35,8 @@ namespace WeatherAPP
         public static float WeightConvert(float weight, string weightUnit) =>
             weightUnit.Equals("kg") ? weight : (float)(weight * 2.20462262);            
 
-        public static float ThermalCoefficient(float densityOne, float densityTwo, 
-            float tempOne, float tempTwo)
-        {
-            float volumeOne = 1 / densityOne;
-            float volumeTwo = 1 / densityTwo;
-                
-            float changeVolume = Math.Abs(volumeOne - volumeTwo);
-            float changeTemp = Math.Abs(tempOne - tempTwo);
-
-            float thermalCoefficient = changeVolume / changeTemp / volumeOne;
-
-            return thermalCoefficient;
-        }
-
-        public static float DensityPrediction(float density, float thermalCoefficient, 
-            float temp, float maxTemp) => density / (1 + thermalCoefficient * (maxTemp - temp));
-
         public static float Weight(float density, float volume) => density * volume;
-
-        public static float DensityReverter(float density, string densityUnit)
-        {
-            if (densityUnit.Equals("kPerMeter"))
-            {
-                // density already in correct unit
-                return density;
-            }
-            else if (densityUnit.Equals("gPerCM"))
-            {
-                return (float)(density * 0.001);
-            }
-            else
-            {
-                // only other option is pounds/gallon
-                return (float)(density * 0.00835);
-            }
-        }
+      
         public static float AcidNeutralization(float batchWeight, float acidNumber, float finalAcidNumber, 
             float molWeightNeut, float concNeut, ushort acidEquiv = 1, ushort baseEquiv = 1)
         {
@@ -85,6 +52,21 @@ namespace WeatherAPP
             float result = (float)((float)((initialBaseNumber - finalBaseNumber) * batchWeight * molWeightNeut / 56105.67) / concNeut);
 
             return result * equiv;
-        }            
+        }
+        public static float ThermalCoefficient(float densityOne, float densityTwo, 
+            float tempOne, float tempTwo)
+        {
+            float volumeOne = 1 / densityOne;
+            float volumeTwo = 1 / densityTwo;
+                
+            float changeVolume = Math.Abs(volumeOne - volumeTwo);
+            float changeTemp = Math.Abs(tempOne - tempTwo);
+
+            float thermalCoefficient = changeVolume / changeTemp / volumeOne;
+
+            return thermalCoefficient;
+        }        
+        public static float DensityPrediction(float density, float thermalCoefficient, 
+            float temp, float maxTemp) => density / (1 + thermalCoefficient * (maxTemp - temp));
     }
 }

@@ -127,11 +127,8 @@ namespace WeatherAPP.Views.Home
                         { "EndTime", (string)day["endTime"]! }
                     };
 
-                    if (dayWeather[$"DailyPrecipitation"] is null)
-                    {
-                        dayWeather[$"DailyPrecipitation"] = "0";
-                    }
-                    
+                    dayWeather[$"DailyPrecipitation"] = dayWeather[$"DailyPrecipitation"] is null ? "0" : dayWeather[$"DailyPrecipitation"];
+                                    
                     DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
                     DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
 
@@ -140,14 +137,7 @@ namespace WeatherAPP.Views.Home
                 weatherList.Add(dayWeather);
             }
 
-            if (weatherList.Count == 0)
-            {
-                return new List<Dictionary<string, string>>();
-            }
-            else
-            {
-                return weatherList;
-            }
+            return weatherList.Count == 0 ? new List<Dictionary<string, string>>() : weatherList;
         }
     }
 }

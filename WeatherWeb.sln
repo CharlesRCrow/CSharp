@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherWeb", ".devcontainer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherAPP", "WeatherAPP\WeatherAPP.csproj", "{1628F7AE-4D84-4319-B95B-86A01D152340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{9E62D736-21F0-44B2-949E-9D813A2DB95E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructuresAlgorithms", "DataStructuresAlgorithms\DataStructuresAlgorithms.csproj", "{17D9AA9E-AB5F-4E3C-9659-0ECD84D3B46B}"
 EndProject
 Global
