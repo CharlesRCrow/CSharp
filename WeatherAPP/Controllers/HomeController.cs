@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WeatherAPP.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Tracing;
 
 namespace WeatherAPP.Controllers;
 
@@ -56,7 +55,8 @@ public class HomeController : Controller
         ViewData["acidReadOnly"] = acidSelect.Equals("manualAcid") ? "" : "readonly";
 
         if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
-            || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
+            || string.IsNullOrEmpty(acid) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc) || string.IsNullOrEmpty(equiv)
+            || string.IsNullOrEmpty(baseEquiv) || string.IsNullOrEmpty(finalAcid))
         {            
             return View();
         }
@@ -127,7 +127,8 @@ public class HomeController : Controller
         ViewData["baseReadOnly"] = baseSelect.Equals("manualBase") ? "" : "readonly";
 
         if ((string.IsNullOrEmpty(weightBatch) && (string.IsNullOrEmpty(volumeValue) || string.IsNullOrEmpty(densityValue))) 
-            || string.IsNullOrEmpty(initialBase) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc))
+            || string.IsNullOrEmpty(initialBase) || string.IsNullOrEmpty(molWeight) || string.IsNullOrEmpty(conc) || string.IsNullOrEmpty(equiv)
+            || string.IsNullOrEmpty(acidEquiv) || string.IsNullOrEmpty(finalBase))
         {            
             return View();
         }
@@ -332,5 +333,3 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
-
-

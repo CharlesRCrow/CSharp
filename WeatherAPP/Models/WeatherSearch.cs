@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 
-namespace WeatherAPP.Views.Home
+namespace WeatherAPP.Views.Models
 {
  public class WeatherSearch
     {

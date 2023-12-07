@@ -1,5 +1,3 @@
-using SQLitePCL;
-
 namespace WeatherAPP.Models
 {
     public class ChemVariables
@@ -35,6 +33,7 @@ namespace WeatherAPP.Models
                 "sulfuric" =>  "98.079",
                 "carbonic" => "62.0248",
                 "phosphoric" => "97.994",
+                "ddbsa" => "326.49", 
                 _ => current,
            };
            return resultText;
@@ -45,6 +44,7 @@ namespace WeatherAPP.Models
            {
                 "hcl" => "1",
                 "acetic" => "1",
+                "ddbsa" => "1",
                 "sulfuric" =>  "2",
                 "carbonic" => "2",
                 "phosphoric" => "3",

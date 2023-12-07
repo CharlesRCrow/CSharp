@@ -1,4 +1,4 @@
-using WeatherAPP.Views.Home;
+using WeatherAPP.Views.Models;
 
 namespace WeatherAPP.Models
 {

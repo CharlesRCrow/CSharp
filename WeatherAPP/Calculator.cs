@@ -1,5 +1,5 @@
-using System.Reflection.Metadata.Ecma335;
-using SQLitePCL;
+// using System.Reflection.Metadata.Ecma335;
+// using SQLitePCL;
 
 namespace WeatherAPP
 {
