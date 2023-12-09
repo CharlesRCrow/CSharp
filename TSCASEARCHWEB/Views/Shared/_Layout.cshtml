@@ -1,9 +1,10 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - test</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/test.styles.css" asp-append-version="true" />
@@ -20,17 +21,30 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="WeatherSearch">Weather Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CASSearch">TSCA Search</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Calculators
+                            </a>
+                            <ul class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Thermal_Expansion">Thermal Expansion</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Acid_Neutralization">Acid Neutralization</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Base_Neutralization">Base Neutralization</a>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="WeatherSearch">Weather</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CASSearch">CAS</a>
-                        </li> *@
                     </ul>
                 </div>
             </div>
@@ -44,8 +58,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023  Created by  
-            <a class="link-opacity-75" href="mailto:crow.charlesr@gmail.com">Charles Crow</a> 
+            &copy; 2023  Created by
+            <a class="link-opacity-75" href="mailto:crow.charlesr@gmail.com">Charles Crow</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
