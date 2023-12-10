@@ -255,6 +255,11 @@ public class HomeController : Controller
         WeatherJSON model = new WeatherJSON();
         List<Dictionary<string, string>> weatherList;
 
+        ViewData["hourlyChecked"] = "";
+        ViewData["sevenChecked"] = "";
+
+        
+
         weatherList = (searchQuery is not null && weatherSelect is not null) ? model.WeatherGet(searchQuery, weatherSelect) : model.WeatherGet();
 
         if (weatherList is null || weatherList.Count == 0)
@@ -267,10 +272,12 @@ public class HomeController : Controller
         }
         else if (weatherSelect.Equals("seven"))
         {
+            ViewData["sevenChecked"] = "checked";
             ViewData["searchLocation"] = "Seven Day Forecast : " + searchQuery;
         }
         else if (weatherSelect.Equals("hourly"))
         {
+            ViewData["hourlyChecked"] = "checked";
             ViewData["searchLocation"] = "Hourly Forecast : " + searchQuery;
         }
 
