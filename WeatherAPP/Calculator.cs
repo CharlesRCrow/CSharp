@@ -1,6 +1,3 @@
-// using System.Reflection.Metadata.Ecma335;
-// using SQLitePCL;
-
 namespace WeatherAPP
 {
     public class Calculator

@@ -61,31 +61,54 @@ public class HomeController : Controller
             return View();
         }
 
-        float acidNumber = float.Parse(acid);
-        float finalAcidNumber = float.Parse(finalAcid);
-        float molWeightNeut = float.Parse(molWeight);
-        float concentration = float.Parse(conc) / 100;
-        ushort equivalence = ushort.Parse(equiv);
-        ushort baseEquivalence = ushort.Parse(baseEquiv);
-        float acidWeight;
+        float acidNumber = 0;
+        float finalAcidNumber = 0;
+        float molWeightNeut = 0;
+        float concentration = 0;
+        ushort equivalence = 0;
+        ushort baseEquivalence = 0;
+        float acidWeight = 0;
+        float volumeSample = 0;
+        float density = 0;
 
-        if (finalAcidNumber > acidNumber)
+        bool parsed = float.TryParse(acid, out acidNumber) && float.TryParse(finalAcid, out finalAcidNumber) && float.TryParse(molWeight, out molWeightNeut) &&
+                        float.TryParse(conc, out concentration) && ushort.TryParse(equiv, out equivalence) && ushort.TryParse(baseEquiv, out baseEquivalence);
+
+
+        if (finalAcidNumber > acidNumber || !parsed)
         {
             ViewData["error"] = "true";
             return View();
         }
 
+        concentration /= 100;
+
         if (string.IsNullOrEmpty(weightBatch))
         {
-            float density = Calculator.DensityConverter(float.Parse(densityValue), densityUnit);
-            float volumeSample = Calculator.VolumeConverter(float.Parse(volumeValue), volumeUnit);            
-            acidWeight = Calculator.Weight(density, volumeSample);
+            parsed = float.TryParse(densityValue, out density) && float.TryParse(volumeValue, out volumeSample);
+            
+            if (parsed) acidWeight = Calculator.Weight(density, volumeSample);
+            else
+            {
+                ViewData["error"] = "true";
+                return View();
+            }
         }
         else
         {
-            acidWeight = float.Parse(weightBatch);
-            // convert weight to kg if needed
-            acidWeight = weightUnit.Equals("kg") ? acidWeight : (float)(acidWeight * 0.45359237);
+            parsed = float.TryParse(weightBatch, out acidWeight);
+
+            if (parsed)
+            {
+                // convert weight to kg if needed
+                acidWeight = weightUnit.Equals("kg") ? acidWeight : (float)(acidWeight * 0.45359237);
+            }
+            else
+            {
+                ViewData["error"] = "true";
+                return View();
+            }
+            
         }        
 
         // gives weight of neutralizer to add
@@ -133,32 +156,56 @@ public class HomeController : Controller
             return View();
         }
 
-        float baseNumber = float.Parse(initialBase);
-        float finalBaseNumber = float.Parse(finalBase);
-        float molWeightNeut = float.Parse(molWeight);
-        float concentration = float.Parse(conc) / 100;
-        ushort equivalence = ushort.Parse(equiv);
-        ushort acidEquivalence = ushort.Parse(acidEquiv);
-        float baseWeight;
+        float baseNumber = 0;
+        float finalBaseNumber = 0;
+        float molWeightNeut = 0;
+        float concentration = 0;
+        ushort equivalence = 0;
+        ushort acidEquivalence = 0;
+        
+        float baseWeight = 0;
+        float volumeSample = 0;
+        float density = 0;
 
-        if (finalBaseNumber > baseNumber)
+        bool parsed = float.TryParse(initialBase, out baseNumber) && float.TryParse(finalBase, out finalBaseNumber) && float.TryParse(molWeight, out molWeightNeut) &&
+                        float.TryParse(conc, out concentration) && ushort.TryParse(equiv, out equivalence) && ushort.TryParse(acidEquiv, out acidEquivalence);
+
+
+        if (finalBaseNumber > baseNumber || !parsed)
         {
             ViewData["error"] = "true";
             return View();
-        }
+        }        
+
+        concentration /= 100;
 
         if (string.IsNullOrEmpty(weightBatch))
         {
-            float density = Calculator.DensityConverter(float.Parse(densityValue), densityUnit);
-            float volumeSample = Calculator.VolumeConverter(float.Parse(volumeValue), volumeUnit);            
-            baseWeight = Calculator.Weight(density, volumeSample);
+            parsed = float.TryParse(densityValue, out density) && float.TryParse(volumeValue, out volumeSample);
+            
+            if (parsed) baseWeight = Calculator.Weight(density, volumeSample);
+            else
+            {
+                ViewData["error"] = "true";
+                return View();
+            }
+
         }
         else
         {
-            baseWeight = float.Parse(weightBatch);
-            // convert weight to kg if needed
-            baseWeight = weightUnit.Equals("kg") ? baseWeight : (float)(baseWeight * 0.45359237);
-        }        
+            parsed = float.TryParse(weightBatch, out baseWeight);
+
+            if (parsed)
+            {
+                // convert weight to kg if needed
+                baseWeight = weightUnit.Equals("kg") ? baseWeight : (float)(baseWeight * 0.45359237);
+            }
+            else
+            {
+                ViewData["error"] = "true";
+                return View();
+            }        
+        }       
 
         // gives weight of neutralizer to add
         float result = Calculator.BaseNeutralization(baseWeight, baseNumber, finalBaseNumber, 
@@ -195,12 +242,29 @@ public class HomeController : Controller
             return View();
         }
 
-        float densityOne = Calculator.DensityConverter(float.Parse(firstDensity), densityUnit);
-        float densityTwo = Calculator.DensityConverter(float.Parse(secondDensity), densityUnit);
-        float tempOne = Calculator.TempConverter(float.Parse(firstTemp), tempUnit);
-        float tempTwo = Calculator.TempConverter(float.Parse(secondTemp), tempUnit);
-        float tempContainer = Calculator.TempConverter(float.Parse(containerTemp), tempUnit);
-        float sizeContainer = Calculator.VolumeConverter(float.Parse(containerSize), volumeUnit);
+        float densityOne = 0;
+        float densityTwo = 0;
+        float tempOne = 0;
+        float tempTwo = 0;
+        float tempContainer = 0;
+        float sizeContainer = 0;
+
+        bool parsed = float.TryParse(firstDensity, out densityOne) && float.TryParse(secondDensity, out densityTwo) && float.TryParse(firstTemp, out tempOne)
+                        &&  float.TryParse(secondTemp, out tempTwo) && float.TryParse(containerTemp, out tempContainer) && float.TryParse(containerSize, out sizeContainer);
+        
+        
+        if (!parsed)
+        {
+            ViewData["error"] = "true";
+            return View();
+        }
+        
+        densityOne = Calculator.DensityConverter(densityOne, densityUnit);
+        densityTwo = Calculator.DensityConverter(densityTwo, densityUnit);
+        tempOne = Calculator.TempConverter(tempOne, tempUnit);
+        tempTwo = Calculator.TempConverter(tempTwo, tempUnit);
+        tempContainer = Calculator.TempConverter(tempContainer, tempUnit);
+        sizeContainer = Calculator.VolumeConverter(sizeContainer, volumeUnit);
 
         float thermalCoefficient = Calculator.ThermalCoefficient(densityOne, densityTwo, tempOne, tempTwo);
         float predictedDensity = Calculator.DensityPrediction(densityOne, thermalCoefficient, tempOne, tempContainer);
