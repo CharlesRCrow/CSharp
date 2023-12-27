@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 
-namespace TSCASEARCHWEB.Views.Home
+namespace TSCASEARCHWEB.Models
 {
     public class WeatherSearch
     {

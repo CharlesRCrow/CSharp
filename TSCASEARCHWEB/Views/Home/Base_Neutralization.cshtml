@@ -1,0 +1,198 @@
+﻿@{
+    ViewData["Title"] = "Base_Neutralization";
+
+    bool imperialWeight = ViewData["weightUnit"]!.Equals("lbs");
+    bool metric = ViewData["weightUnit"]!.Equals("kg");
+    bool error = ViewData["error"]!.Equals("true");
+    string errorStyle = "background-color:white;";
+
+    if (error)
+    {
+        errorStyle = "background-color:yellow;";
+    }
+}
+
+<h1 class="display-2 text-center">Neutralization of Basic Samples</h1>
+<br>
+<form asp-action="Base_Neutralization" asp-controller="Home">
+    <p class="text-center fs-2">Enter Batch Weight or Volume and Density</p>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="neutSelect" class="form-label">Common Acidic Neutralizers</label>
+            <select class="form-select" aria-label="common acid" name="neutSelect" id="neutSelection">
+                <option disabled selected>Choose Acid Neutralizer</option>
+                <option value="manualAcid">Manual Input</option>
+                <option value="hcl">Hydrochoric acid</option>
+                <option value="acetic">Acetic Acid</option>
+                <option value="ddbsa">DDBSA</option>
+                <option value="sulfuric">Sulfuric acid</option>
+                <option value="carbonic">Carbonic acid</option>
+                <option value="phosphoric">Phosphoric acid</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="acidSelect" class="form-label">Common Bases</label>
+            <select class="form-select" aria-label="common base" name="baseSelect" id="baseSelection">
+                <option disabled selected>Choose Base</option>
+                <option value="manualBase">Manual Input</option>
+                <option value="sodiumHydroxide">Sodium Hydroxide</option>
+                <option value="potassiumHydroxide">Potassium Hydroxide</option>
+                <option value="ammoniumHydroxide">Ammonium Hydroxide</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="batchWeight" class="form-label">Batch Weight</label>
+            <input type="number" class="form-control" id="batchWeight" name="weightBatch" step="0.0001" min="0.0001"
+                   value=@ViewData["weightBatch"] title="Up to Four Decimal Places">
+        </div>
+        <div class="col">
+            <label for="weightUnit" class="form-label">Weight Unit</label>
+            <select class="form-select" aria-label="Weight unit" name="weightUnit" id="weightUnitSelection">
+                <option value="kg" selected>Kilograms</option>
+                <option value="lbs">Pounds</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="volumeValue" class="form-label">Batch Volume</label>
+            <input type="number" class="form-control" id="volumeValue" name="volumeValue" step="0.0001" min="0.0001"
+                   value=@ViewData["volumeValue"] title="Up to Four Decimal Places">
+        </div>
+        <div class="col">
+            <label for="volumeUnit" class="form-label">Unit of Volume</label>
+            <select class="form-select" aria-label="volume unit" name="volumeUnit" id="volumeUnitSelection">
+                <option value="gallons">Gallons</option>
+                <option value="liters" selected>Liters</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="densityValue" class="form-label">Batch Density</label>
+            <input type="number" class="form-control" id="densityValue" name="densityValue" step="0.0001" min="0.0001"
+                   value=@ViewData["densityValue"] title="Up to Four Decimal Places">
+        </div>
+        <div class="col">
+            <label for="densityUnit" class="form-label">Density Unit</label>
+            <select class="form-select" aria-label="density unit" name="densityUnit" id="densityUnitSelection">
+                <option value="kPerMeter">Kg/m³</option>
+                <option value="gPerCM" selected>g/cm³</option>
+                <option value="poundsGallons">lb/gal</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="equiv" class="form-label">Base Equivalence</label>
+            <input type="number" class="form-control" id="equiv" name="equiv" min="1" max="10" step="1"
+                   value=@ViewData["baseEquiv"]
+                   title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated"
+                   @ViewData["baseReadOnly"]>
+        </div>
+        <div class="col">
+            <label for="baseNumber" class="form-label">Initial Base Number (mg KOH/g)</label>
+            <input type="number" class="form-control" id="baseNumber" name="initialBase" step="0.0001" min="0"
+                   value=@ViewData["initialBase"] title="Up to Four Decimal Places">
+        </div>
+        <div class="col">
+            <label for="finalBaseNumber" class="form-label">Desired Base Number (mg KOH/g)</label>
+            <input type="number" style="@errorStyle" class="form-control" id="finalBaseNumber" name="finalBase" step="0.0001" min="0"
+                   value=@ViewData["finalBase"] title="Up to Four Decimal Places">
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <label for="mol" class="form-label">Acid Equivalence</label>
+            <input type="number" class="form-control" id="acidEquiv" name="acidEquiv" step="1" min="1" max="10"
+                   value=@ViewData["acidEquiv"]
+                   title="The point where the moles of titrant added equals the moles of substance initially in the solution being titrated"
+                   @ViewData["acidReadOnly"]>
+        </div>
+        <div class="col">
+            <label for="mol" class="form-label">Molecular Weight of Neutralizer</label>
+            <input type="number" class="form-control" id="mol" name="molWeight" step="0.0001" min="1"
+                   value=@ViewData["molWeight"] title="Up to Four Decimal Places" @ViewData["acidReadOnly"]>
+        </div>
+        <div class="col">
+            <label for="conc" class="form-label">Concentration of Neutralizer (%)</label>
+            <input type="text" class="form-control" id="conc" name="conc" min="0.0001"
+                   value=@ViewData["conc"] title="Up to Four Decimal Places">
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary .btn-lg w-100">SUBMIT</button>
+</form>
+
+<br>
+@if (error)
+{
+    <p class="h1" style="color:red;">INVALID INPUT</p>
+}
+
+@if (ViewData["weightBatch"] is not null && ViewData["volumeValue"] is not null && ViewData["densityValue"] is not null)
+{
+    <p class="h3" style="color:red;">If weight, volume and density are all filled out.  Will default to using weight for calculations.</p>
+}
+
+@if (ViewData["result"] is not null)
+{
+    @if (imperialWeight)
+    {
+        <p class="h1">add @ViewData["result"] lbs or @ViewData["altWeight"] ounces of neturalizer</p>
+    }
+    @if (metric)
+    {
+        <p class="h1">add @ViewData["result"] kg or @ViewData["altWeight"] grams of neturalizer</p>
+    }
+}
+<br>
+
+@section scripts{
+    <script>
+        $('#weightUnitSelection').change(function (event) {
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("weightName", selectedcategory);
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('weightName') + ']').attr('selected', 'selected');
+    </script>
+    <script>
+        $('#volumeUnitSelection').change(function (event) {
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("volumeName", selectedcategory);
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('volumeName') + ']').attr('selected', 'selected');
+    </script>
+    <script>
+        $('#densityUnitSelection').change(function (event) {
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("duName", selectedcategory);
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('duName') + ']').attr('selected', 'selected');
+    </script>
+    <script>
+        $('#neutSelection').change(function (event) {
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("acidNeutName", selectedcategory);
+            var form = $(event.target).parents('form');
+            form.submit();
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('acidNeutName') + ']').attr('selected', 'selected');
+    </script>
+    <script>
+        $('#baseSelection').change(function (event) {
+            var selectedcategory = $(this).children("option:selected").val();
+            sessionStorage.setItem("baseSelectName", selectedcategory);
+            var form = $(event.target).parents('form');
+            form.submit();
+        });
+        $('select').find('option[value=' + sessionStorage.getItem('baseSelectName') + ']').attr('selected', 'selected');
+    </script>
+}

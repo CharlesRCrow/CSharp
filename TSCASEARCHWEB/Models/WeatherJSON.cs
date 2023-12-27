@@ -1,5 +1,3 @@
-using TSCASEARCHWEB.Views.Home;
-
 namespace TSCASEARCHWEB.Models
 {
     public class WeatherJSON
