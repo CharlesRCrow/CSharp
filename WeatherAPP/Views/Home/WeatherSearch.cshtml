@@ -1,7 +1,8 @@
 @{
     ViewData["Title"] = "WeatherSearch";
     string? searchCity = ViewData["searchQuery"] as string; 
-    string? selectWeather = ViewData["weatherSelect"] as string;      
+    string? selectWeather = ViewData["weatherSelect"] as string;
+    bool error = ViewData["error"].Equals("true");      
 }
 
 <div class="row">
@@ -29,8 +30,14 @@
                 Hourly Forecast
             </label>
         </div>
-    </form>    
-    @if (ViewBag.MyList is not null && ViewBag.MyList.Count != 0 && selectWeather is not null)
+    </form> 
+    @if (error)
+    {
+        <br>
+        <br>
+        <p class="h1">502 Bad Gateway  Connection Unsuccessful</p>
+    }   
+    @if (ViewBag.MyList is not null && ViewBag.MyList.Count != 0 && selectWeather is not null && !error)
     {
         @if (selectWeather.Equals("seven"))
         {

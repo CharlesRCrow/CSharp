@@ -1,4 +1,5 @@
 using WeatherAPP.Views.Models;
+using System.Net.Http;
 
 namespace WeatherAPP.Models
 {
@@ -22,6 +23,7 @@ namespace WeatherAPP.Models
             }
             catch
             {
+                //throw new HttpRequestException("Bad Gateway");
                 return new List<Dictionary<string, string>>();
             }       
         }

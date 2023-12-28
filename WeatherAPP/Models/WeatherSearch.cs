@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using System.Net.Http;
 
 namespace WeatherAPP.Views.Models
 {
@@ -8,9 +9,20 @@ namespace WeatherAPP.Views.Models
         public static async Task<Dictionary<string, string>> GetLoc(string address)
         {
             HttpClient locationClient = new HttpClient();
-            HttpRequestMessage locationRequest = new HttpRequestMessage(HttpMethod.Get, $"https://geocode.maps.co/search?q={address}");
+            HttpRequestMessage locationRequest = new HttpRequestMessage(HttpMethod.Get, $"https://geocode.maps.co/search?q={address}&api_key=658c6db1d8ea5951371902vxcf86d7c");
 
             HttpResponseMessage locationHttpResponseMessage = await locationClient.SendAsync(locationRequest);
+            
+            if (!locationHttpResponseMessage.IsSuccessStatusCode)
+            {
+                Dictionary<string, string> error = new Dictionary<string, string>
+                {
+                    { "Error", "Connection Unsuccessful"}
+                };
+
+                return error;
+            }
+
             string locationResponse = await locationHttpResponseMessage.Content.ReadAsStringAsync();
             
             if (locationResponse == "[]")
@@ -43,8 +55,19 @@ namespace WeatherAPP.Views.Models
 
         public static async Task<List<Dictionary<string, string>>> GetWeather(Dictionary<string, string> latLong, string weatherSelect)
         {
-            List<Dictionary<string, string>> invalid = new List<Dictionary<string, string>>();
+            List<Dictionary<string, string>> weatherList = new List<Dictionary<string, string>>();
 
+            Dictionary<string, string> error = new Dictionary<string, string>
+            {
+                { "Error", "Connection Unsuccessful"}
+            };            
+                   
+            if (latLong.ContainsKey("Error"))
+            {
+                weatherList.Add(error);
+                return weatherList;
+            }
+            
             string latitude = latLong["Latitude"];
             string longitude = latLong["Longitude"];
 
@@ -75,8 +98,7 @@ namespace WeatherAPP.Views.Models
             JToken? yCord = token.SelectToken("gridY");
             JToken? gridID = token.SelectToken("gridId");
 
-            HttpRequestMessage? forecastRequest = null;
-            
+            HttpRequestMessage? forecastRequest;
             if (weatherSelect.Equals("seven"))
             {
                 forecastRequest = new HttpRequestMessage(HttpMethod.Get, 
@@ -94,6 +116,12 @@ namespace WeatherAPP.Views.Models
 
             HttpResponseMessage httpResponseForecast = await client.SendAsync(forecastRequest);
 
+            if (!httpResponseForecast.IsSuccessStatusCode)
+            {
+                weatherList.Add(error);
+                return weatherList;
+            }
+
             string forecastResponse = await httpResponseForecast.Content.ReadAsStringAsync();
 
             JObject forecast = (JObject)JObject.Parse(forecastResponse)["properties"]!;
@@ -103,8 +131,7 @@ namespace WeatherAPP.Views.Models
             {
                 return new List<Dictionary<string, string>>();
             }
-            
-            List<Dictionary<string, string>> weatherList = new List<Dictionary<string, string>>();            
+                        
 
             foreach (JToken day in dailyForecast ?? throw new InvalidOperationException())
             {
@@ -129,10 +156,23 @@ namespace WeatherAPP.Views.Models
 
                     dayWeather[$"DailyPrecipitation"] = dayWeather[$"DailyPrecipitation"] is null ? "0" : dayWeather[$"DailyPrecipitation"];
                                     
-                    DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
-                    DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
+                    DateTime startTime;
+                    DateTime endTime;
+                    
+                    if (!DateTime.TryParse(dayWeather["StartTime"], out startTime) || !DateTime.TryParse(dayWeather["EndTime"], out endTime))
+                    {
+                        dayWeather["Period"] = "INVALID";
+                    }
+                    else
+                    {
+                        dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
+                    }
+                    
+                    
+                    // DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
+                    // DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
 
-                    dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
+                    // dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
                 }
                 weatherList.Add(dayWeather);
             }
