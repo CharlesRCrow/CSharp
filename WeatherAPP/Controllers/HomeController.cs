@@ -316,22 +316,29 @@ public class HomeController : Controller
 
     public IActionResult WeatherSearch(string searchQuery, string weatherSelect="seven")
     {
+        if (searchQuery is not null)
+        {
+            searchQuery = System.Text.RegularExpressions.Regex.Replace(searchQuery.Trim(), @"\s+", " ");            
+        }
+        
         WeatherJSON model = new WeatherJSON();
         List<Dictionary<string, string>> weatherList;
 
         ViewData["error"] = "false";
+        ViewData["NoResults"] = "false";
         
         weatherList = (searchQuery is not null && weatherSelect is not null) ? model.WeatherGet(searchQuery, weatherSelect) : model.WeatherGet();
 
-        // if (weatherList is not null && weatherList[0].ContainsKey("Error"))
-        // {
-        //     ViewData["error"] = "true";
-        // }
         
-        if (weatherList is null || weatherList.Count == 0)
+        if ((weatherList is null || weatherList.Count == 0) && searchQuery is null)
         {
             ViewData["searchLocation"] = "Submit Address for Weather Forecast";
             return View();
+        }
+        else if ((weatherList is null || weatherList.Count == 0) && searchQuery is not null)
+        {
+            ViewData["searchLocation"] = "No Results";
+            return View();            
         }
         else if (weatherSelect is null)
         {
@@ -349,8 +356,12 @@ public class HomeController : Controller
         if (weatherList[0].ContainsKey("Error"))
         {
             ViewData["error"] = "true";
-            //return View();
-        }        
+        }
+
+        if (weatherList[0].ContainsKey("NoResults")) 
+        {
+            ViewData["NoResults"] = "true";
+        }            
 
         ViewBag.MyList = weatherList;
         ViewData["weatherSelect"] = weatherSelect;
@@ -360,6 +371,15 @@ public class HomeController : Controller
     }
     public IActionResult CASSearch(string searchQuery, string secondQuery, string isInactive = "off")
     {
+        if (searchQuery is not null)
+        {
+            searchQuery = System.Text.RegularExpressions.Regex.Replace(searchQuery.Trim(), @"\s+", " ");            
+        }        
+        
+        if (secondQuery is not null)
+        {
+            secondQuery = System.Text.RegularExpressions.Regex.Replace(secondQuery.Trim(), @"\s+", " ");            
+        }        
         
         if (searchQuery is null || searchQuery.Length < 3)
         {

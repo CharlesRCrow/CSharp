@@ -49,7 +49,12 @@ namespace WeatherAPP.Views.Models
             }
             else
             {
-                return new Dictionary<string, string>();
+                Dictionary<string, string> noResults = new Dictionary<string, string>
+                {
+                    { "NoResults", "No Results"}
+                };
+
+                return noResults;
             }
         }
 
@@ -60,13 +65,25 @@ namespace WeatherAPP.Views.Models
             Dictionary<string, string> error = new Dictionary<string, string>
             {
                 { "Error", "Connection Unsuccessful"}
-            };            
+            };
+
+            Dictionary<string, string> noResults = new Dictionary<string, string>
+            {
+                { "NoResults", "No Results"}
+            };
+                        
                    
             if (latLong.ContainsKey("Error"))
             {
                 weatherList.Add(error);
                 return weatherList;
             }
+
+            if (latLong.ContainsKey("NoResults"))
+            {
+                weatherList.Add(noResults);
+                return weatherList;
+            }            
             
             string latitude = latLong["Latitude"];
             string longitude = latLong["Longitude"];
@@ -91,7 +108,8 @@ namespace WeatherAPP.Views.Models
             
             if (token is null)
             {
-                return new List<Dictionary<string, string>>();
+                weatherList.Add(noResults);
+                return weatherList;
             }
             
             JToken? xCord = token.SelectToken("gridX");
@@ -111,7 +129,8 @@ namespace WeatherAPP.Views.Models
             }
             else
             {
-                return new List<Dictionary<string, string>>();
+                weatherList.Add(error);
+                return weatherList;
             }
 
             HttpResponseMessage httpResponseForecast = await client.SendAsync(forecastRequest);
@@ -129,7 +148,9 @@ namespace WeatherAPP.Views.Models
             
             if (dailyForecast is null) 
             {
-                return new List<Dictionary<string, string>>();
+                weatherList.Add(noResults );
+                return weatherList;
+                //return new List<Dictionary<string, string>>();
             }
                         
 
@@ -168,16 +189,19 @@ namespace WeatherAPP.Views.Models
                         dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
                     }
                     
-                    
-                    // DateTime startTime = DateTime.Parse(dayWeather["StartTime"]);
-                    // DateTime endTime = DateTime.Parse(dayWeather["EndTime"]);
-
-                    // dayWeather["Period"] = $"{startTime.DayOfWeek}  {startTime.Hour}:00 to {endTime.Hour}:00";
                 }
                 weatherList.Add(dayWeather);
             }
 
-            return weatherList.Count == 0 ? new List<Dictionary<string, string>>() : weatherList;
+            //return weatherList.Count == 0 ? new List<Dictionary<string, string>>() : weatherList;
+
+            if (weatherList.Count == 0)
+            {
+                weatherList.Add(noResults);
+                return weatherList; 
+            }
+
+            return weatherList;
         }
     }
 }
