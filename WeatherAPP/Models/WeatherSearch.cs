@@ -71,7 +71,7 @@ namespace WeatherAPP.Views.Models
             {
                 { "NoResults", "No Results"}
             };
-                        
+
                    
             if (latLong.ContainsKey("Error"))
             {
@@ -108,7 +108,7 @@ namespace WeatherAPP.Views.Models
             
             if (token is null)
             {
-                weatherList.Add(noResults);
+                weatherList.Add(error);
                 return weatherList;
             }
             
@@ -148,9 +148,7 @@ namespace WeatherAPP.Views.Models
             
             if (dailyForecast is null) 
             {
-                weatherList.Add(noResults );
-                return weatherList;
-                //return new List<Dictionary<string, string>>();
+                new List<Dictionary<string, string>>();
             }
                         
 
@@ -193,15 +191,7 @@ namespace WeatherAPP.Views.Models
                 weatherList.Add(dayWeather);
             }
 
-            //return weatherList.Count == 0 ? new List<Dictionary<string, string>>() : weatherList;
-
-            if (weatherList.Count == 0)
-            {
-                weatherList.Add(noResults);
-                return weatherList; 
-            }
-
-            return weatherList;
+            return weatherList.Count == 0 ? new List<Dictionary<string, string>>() : weatherList;
         }
     }
 }

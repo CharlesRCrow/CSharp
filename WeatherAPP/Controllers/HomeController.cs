@@ -353,12 +353,14 @@ public class HomeController : Controller
             ViewData["searchLocation"] = "Hourly Forecast : " + searchQuery;
         }
 
-        if (weatherList[0].ContainsKey("Error"))
+        if (weatherList is not null && weatherList[0].ContainsKey("Error"))
         {
+            ViewData["searchLocation"] = "502 Bad Gateway : Connection Unsuccessful";
+
             ViewData["error"] = "true";
         }
 
-        if (weatherList[0].ContainsKey("NoResults")) 
+        if (weatherList is not null && weatherList[0].ContainsKey("NoResults")) 
         {
             ViewData["NoResults"] = "true";
         }            
@@ -371,6 +373,8 @@ public class HomeController : Controller
     }
     public IActionResult CASSearch(string searchQuery, string secondQuery, string isInactive = "off")
     {
+        ViewData["noResults"] = "false";
+
         if (searchQuery is not null)
         {
             searchQuery = System.Text.RegularExpressions.Regex.Replace(searchQuery.Trim(), @"\s+", " ");            
@@ -398,6 +402,7 @@ public class HomeController : Controller
             {
                 return View();
             }
+            
             IQueryable<Ca>? results = chemSearch;
 
             if (digits.Length > 2 && digits.Length < 11)
@@ -405,22 +410,29 @@ public class HomeController : Controller
                 IQueryable<Ca>? numSearch = db.Cas?.Where(p => EF.Functions.Like(p.Casregno, $"%{digits}%"))
                     .OrderBy(p => p.ChemName);                
 
-                results = chemSearch.Union(numSearch).AsQueryable();
+                results = chemSearch.Union(numSearch!).AsQueryable();
             }
             
             ViewData["searchChem"] = "Results for: " + searchQuery;            
             
-            if (isInactive.Equals("on"))
-            {
-                results = results.Where(p => p.Activity == "ACTIVE");
-            }
+            if (isInactive.Equals("on")) results = results.Where(p => p.Activity == "ACTIVE");
+            // {
+            //     results = results.Where(p => p.Activity == "ACTIVE");
+            // }
+            
             if (secondQuery is not null)
             {
                 ViewData["secondQuery"] = secondQuery;
                 results = results.Where(p => EF.Functions.Like(p.ChemName, $"%{secondQuery}%"));
                 ViewData["searchChem"] = "Results for: " + searchQuery + " & " + secondQuery;
             }
-            
+
+            if (!results.Any()) 
+            {
+                ViewData["noResults"] = "true";
+                ViewData["searchChem"] = "No results for: " + searchQuery + " & " + secondQuery;
+            }
+
             return View(results);
         }
     }        
