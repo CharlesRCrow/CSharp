@@ -13,6 +13,8 @@ namespace WeatherAPP.Models
             public string? Query { get; set; }
         }
 
+        
+        // return list containing dictionaries of weather results from API or return empty if unsuccessful
         public List<Dictionary<string, string>> WeatherGet(string address, string weatherSelect)
         {
             try
@@ -25,10 +27,6 @@ namespace WeatherAPP.Models
             {
                 return new List<Dictionary<string, string>>();
             }       
-        }
-        public List<Dictionary<string, string>> WeatherGet()
-        {
-            return new List<Dictionary<string, string>>();                    
-        }        
+        }       
     }
 }
