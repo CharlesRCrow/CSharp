@@ -134,14 +134,8 @@
 <br>
 @if (error)
 {
-    <p class="h1" style="color:red;">INVALID INPUT</p>
+    <p class="h1">INVALID INPUT</p>
 }
-
-@if (ViewData["weightBatch"] is not null && ViewData["volumeValue"] is not null && ViewData["densityValue"] is not null)
-{
-    <p class="h3" style="color:red;">If weight, volume and density are all filled out.  Will default to using weight for calculations.</p>
-}
-
 @if (ViewData["result"] is not null)
 {
     @if (imperialWeight)
